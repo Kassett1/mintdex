@@ -119,7 +119,7 @@ class Set
     {
         if (!$this->cards->contains($card)) {
             $this->cards->add($card);
-            $card->setSetId($this);
+            $card->setSet($this);
         }
 
         return $this;
@@ -129,8 +129,8 @@ class Set
     {
         if ($this->cards->removeElement($card)) {
             // set the owning side to null (unless already changed)
-            if ($card->getSetId() === $this) {
-                $card->setSetId(null);
+            if ($card->getSet() === $this) {
+                $card->setSet(null);
             }
         }
 
