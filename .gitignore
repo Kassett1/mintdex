@@ -22,3 +22,5 @@
 .env
 .env.dev
 .env.test
+.htaccess
+/public/.htaccess
