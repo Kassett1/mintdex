@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello SetPageController!
+{% endblock %}
+
+{% block body %}
+	<div>
+		<ul>
+			{% for card in cards %}
+				<li>
+					<a href="{{ path('app_card_page', { slug: card.slug }) }}"><img src="{{card.image}}/low.webp" alt="5" "{{card.name}}"></a>
+				</li>
+			{% endfor %}
+		</ul>
+	</div>
+{% endblock %}

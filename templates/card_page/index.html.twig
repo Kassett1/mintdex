@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello CardPageController!
+{% endblock %}
+
+{% block body %}
+
+	<div>
+		<p>{{card.name}}</p>
+		<img src="{{card.image}}/low.webp" alt = "{{card.name}}">
+	</div>
+{% endblock %}

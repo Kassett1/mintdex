@@ -4,20 +4,14 @@
 {% endblock %}
 
 {% block body %}
-	<style>
-		.example-wrapper {
-			margin: 1em auto;
-			max-width: 800px;
-			width: 95%;
-			font: 18px / 1.5 sans-serif;
-		}
-		.example-wrapper code {
-			background: #F5F5F5;
-			padding: 2px 6px;
-		}
-	</style>
 
-	<div class="example-wrapper">
+	<form action="{{ path('app_search_page') }}" method="get">
+		<input type="text" name="q" placeholder="Rechercher une carte…" required>
+		<button type="submit">Rechercher</button>
+	</form>
+
+
+	<div>
 		<section>
 			{% for bws in blocsWithSets|reverse %}
 				<h2>{{ bws["bloc"].name|e }}<h2>
@@ -25,7 +19,11 @@
 						<ul>
 							{% for set in bws["sets"]|reverse %}
 
-								<li>{{ set.name }}</li>
+								<li>
+									<a href="{{ path('app_set_page', { slug: set.slug }) }}">
+										{{ set.name }}
+									</a>
+								</li>
 
 							{% endfor %}
 						</ul>
