@@ -5,10 +5,10 @@
 
 {% block body %}
 	<div>
-		<ul>
+		<ul class="flex flex-row flex-wrap">
 			{% for card in cards %}
-				<li>
-					<a href="{{ path('app_card_page', { slug: card.slug }) }}"><img src="{{card.image}}/low.webp" alt="5" "{{card.name}}"></a>
+				<li class="w-50">
+					<a href="{{ path('app_card_page', { slug: card.slug }) }}"><img class="w-full" src="{{card.image}}/low.webp" alt="{{card.name}}"></a>
 				</li>
 			{% endfor %}
 		</ul>
