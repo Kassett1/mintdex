@@ -4,13 +4,43 @@
 {% endblock %}
 
 {% block body %}
-	<div>
+	<div data-controller="add-card">
 		<ul class="flex flex-row flex-wrap">
 			{% for card in cards %}
-				<li class="w-50">
-					<a href="{{ path('app_card_page', { slug: card.slug }) }}"><img class="w-full" src="{{card.image}}/low.webp" alt="5" "{{card.name}}"></a>
+				<li class="w-50 relative">
+					<a href="{{ path('app_card_page', { slug: card.slug }) }}">
+						<img class="w-full" src="{{ card.image }}/low.webp" alt="{{ card.name }}">
+					</a>
+
+					{% if app.user %}
+						<button class="w-8 h-8 bg-orange-300 rounded absolute bottom-1 right-1 z-10" data-action="click->add-card#toggle">
+							<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewbox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-full h-full">
+								<path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"/>
+							</svg>
+						</button>
+
+						<form data-add-card-target="form" data-action="submit->add-card#sendData" class="hidden absolute bottom-10 right-1 bg-white p-2 rounded shadow">
+							<input type="hidden" name="cardId" value="{{ card.id }}">
+
+							<label class="block text-sm">État :</label>
+							<select name="cardCondition" class="text-sm">
+								<option value="mt">Mint</option>
+								<option value="nm" selected>Near Mint</option>
+								<option value="ex">Excellent</option>
+								<option value="gd">Good</option>
+								<option value="lp">Light Played</option>
+								<option value="pl">Played</option>
+								<option value="po">Poor</option>
+							</select>
+
+							<button type="submit" class="mt-1 text-sm bg-orange-300 rounded px-2">
+								Ajouter
+							</button>
+						</form>
+					{% endif %}
 				</li>
 			{% endfor %}
 		</ul>
 	</div>
+
 {% endblock %}

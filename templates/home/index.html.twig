@@ -4,35 +4,31 @@
 {% endblock %}
 
 {% block body %}
-    <!-- Formulaire de recherche -->
-    <form action="{{ path('app_search_page') }}" method="get" class="flex space-x-2">
-        <input type="text" name="q" placeholder="Rechercher une carte…" required
-               class="flex-1 px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500">
-        <button type="submit"
-                class="px-4 py-2 bg-indigo-600 text-white font-semibold rounded-md hover:bg-indigo-700 transition">
-            Rechercher
-        </button>
-    </form>
+	<!-- Formulaire de recherche -->
+	<form action="{{ path('app_search_page') }}" method="get" class="flex space-x-2">
+		<input type="text" name="q" placeholder="Rechercher une carte…" required class="flex-1 px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500">
+		<button type="submit" class="px-4 py-2 bg-indigo-600 text-white font-semibold rounded-md hover:bg-indigo-700 transition">
+			Rechercher
+		</button>
+	</form>
 
-    <!-- Blocs avec sets -->
-    <section class="space-y-6">
-        {% for bws in blocsWithSets|reverse %}
-            <div class="bg-gray-50 p-4 rounded-lg shadow-sm">
-                <h2 class="text-xl font-bold mb-2">{{ bws["bloc"].name|e }}</h2>
+	<!-- Blocs avec sets -->
+	<section class="space-y-6">
+		{% for bws in blocsWithSets|reverse %}
+			<div class="bg-gray-50 p-4 rounded-lg shadow-sm">
+				<h2 class="text-xl font-bold mb-2">{{ bws["bloc"].name|e }}</h2>
 
-                <ul class="space-y-1">
-                    {% for set in bws["sets"]|reverse %}
-                        <li>
-                            <a href="{{ path('app_set_page', { slug: set.slug }) }}"
-                               class="text-indigo-600 hover:underline">
-                                {{ set.name }}
-                            </a>
-                        </li>
-                    {% endfor %}
-                </ul>
-            </div>
-        {% endfor %}
-    </section>
+				<ul class="space-y-1">
+					{% for set in bws["sets"]|reverse %}
+						<li>
+							<a href="{{ path('app_set_page', { slug: set.slug }) }}" class="text-indigo-600 hover:underline">
+								{{ set.name }}
+							</a>
+						</li>
+					{% endfor %}
+				</ul>
+			</div>
+		{% endfor %}
+	</section>
 
-</div>
-			{% endblock %}
+</div>{% endblock %}

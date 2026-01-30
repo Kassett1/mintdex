@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
@@ -35,6 +37,17 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column]
     private bool $isVerified = false;
+
+    /**
+     * @var Collection<int, UserCard>
+     */
+    #[ORM\OneToMany(targetEntity: UserCard::class, mappedBy: 'user')]
+    private Collection $userCards;
+
+    public function __construct()
+    {
+        $this->userCards = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -125,6 +138,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setIsVerified(bool $isVerified): static
     {
         $this->isVerified = $isVerified;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, UserCard>
+     */
+    public function getUserCards(): Collection
+    {
+        return $this->userCards;
+    }
+
+    public function addUserCard(UserCard $userCard): static
+    {
+        if (!$this->userCards->contains($userCard)) {
+            $this->userCards->add($userCard);
+            $userCard->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUserCard(UserCard $userCard): static
+    {
+        if ($this->userCards->removeElement($userCard)) {
+            // set the owning side to null (unless already changed)
+            if ($userCard->getUser() === $this) {
+                $userCard->setUser(null);
+            }
+        }
 
         return $this;
     }

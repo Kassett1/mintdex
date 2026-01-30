@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\CardRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: CardRepository::class)]
@@ -30,6 +32,17 @@ class Card
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $illustrator = null;
+
+    /**
+     * @var Collection<int, UserCard>
+     */
+    #[ORM\OneToMany(targetEntity: UserCard::class, mappedBy: 'card')]
+    private Collection $userCards;
+
+    public function __construct()
+    {
+        $this->userCards = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -104,6 +117,36 @@ class Card
     public function setIllustrator(string $illustrator): static
     {
         $this->illustrator = $illustrator;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, UserCard>
+     */
+    public function getUserCards(): Collection
+    {
+        return $this->userCards;
+    }
+
+    public function addUserCard(UserCard $userCard): static
+    {
+        if (!$this->userCards->contains($userCard)) {
+            $this->userCards->add($userCard);
+            $userCard->setCard($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUserCard(UserCard $userCard): static
+    {
+        if ($this->userCards->removeElement($userCard)) {
+            // set the owning side to null (unless already changed)
+            if ($userCard->getCard() === $this) {
+                $userCard->setCard(null);
+            }
+        }
 
         return $this;
     }
