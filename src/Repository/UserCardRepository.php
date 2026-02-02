@@ -1,7 +1,8 @@
 <?php
-
 namespace App\Repository;
 
+use App\Entity\Card;
+use App\Entity\User;
 use App\Entity\UserCard;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -16,28 +17,16 @@ class UserCardRepository extends ServiceEntityRepository
         parent::__construct($registry, UserCard::class);
     }
 
-    //    /**
-    //     * @return UserCard[] Returns an array of UserCard objects
-    //     */
-    //    public function findByExampleField($value): array
-    //    {
-    //        return $this->createQueryBuilder('u')
-    //            ->andWhere('u.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->orderBy('u.id', 'ASC')
-    //            ->setMaxResults(10)
-    //            ->getQuery()
-    //            ->getResult()
-    //        ;
-    //    }
+    public function countByUserAndCard(User $user, Card $card): int
+    {
+        return (int) $this->createQueryBuilder('uc')
+            ->select('COUNT(uc.id)')
+            ->andWhere('uc.user = :user')
+            ->andWhere('uc.card = :card')
+            ->setParameter('user', $user)
+            ->setParameter('card', $card)
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
 
-    //    public function findOneBySomeField($value): ?UserCard
-    //    {
-    //        return $this->createQueryBuilder('u')
-    //            ->andWhere('u.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->getQuery()
-    //            ->getOneOrNullResult()
-    //        ;
-    //    }
 }
