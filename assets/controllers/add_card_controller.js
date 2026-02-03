@@ -1,8 +1,6 @@
 import { Controller } from "@hotwired/stimulus";
 
 export default class extends Controller {
-    static targets = ["form"];
-
     toggle(event) {
         const cardItem = event.currentTarget.closest("li");
         const form = cardItem.querySelector('[data-add-card-target="form"]');
@@ -11,8 +9,6 @@ export default class extends Controller {
 
     sendData(event) {
         event.preventDefault();
-
-        console.log("test");
 
         const form = event.currentTarget;
         const formData = new FormData(form);
@@ -27,13 +23,12 @@ export default class extends Controller {
                 condition: formData.get("cardCondition"),
             }),
         })
-        .then(res => res.json())
-        .then(data => {
-            if (data.success) {
-                form.classList.add("hidden");
-                // TODO: changer icône en "✓"
-            }
-        })
-        .catch(err => console.error(err));
+            .then((res) => res.json())
+            .then((data) => {
+                if (data.success) {
+                    form.classList.add("hidden");
+                }
+            })
+            .catch((err) => console.error(err));
     }
 }
