@@ -3,6 +3,9 @@ import { Controller } from "@hotwired/stimulus";
 export default class extends Controller {
     removeCard(event) {
         const cardButton = event.currentTarget;
+        const li = cardButton.closest("li")
+
+        li.remove();
 
         fetch("/collection/remove/card", {
             method: "POST",
@@ -16,5 +19,4 @@ export default class extends Controller {
             .then((res) => res.json())
             .catch((err) => console.error(err));
     }
-
 }

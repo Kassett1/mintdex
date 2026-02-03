@@ -5,8 +5,8 @@ use App\Entity\Card;
 use App\Entity\UserCard;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Attribute\Route;
 
 final class AddCardController extends AbstractController
@@ -17,7 +17,7 @@ final class AddCardController extends AbstractController
         $data = json_decode($request->getContent(), true);
 
         // 1. vérifier qu'on a un utilisateur connecté
-         $user = $this->getUser() ?? null;
+        $user = $this->getUser() ?? null;
         if (! $user) {
             return new JsonResponse(['success' => false, 'message' => 'Utilisateur non connecté'], 401);
         }
@@ -44,6 +44,13 @@ final class AddCardController extends AbstractController
         $em->flush();
 
         // 5. renvoyer JSON OK
-        return new JsonResponse(['success' => true]);
+        return new JsonResponse([
+            'success' => true,
+            'card'    => [
+                'id'        => $userCard->getId(),
+                'name'      => $userCard->getCard()->getName(),
+                'condition' => $userCard->getCardCondition(),
+            ],
+        ]);
     }
 }
