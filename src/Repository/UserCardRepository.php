@@ -17,16 +17,16 @@ class UserCardRepository extends ServiceEntityRepository
         parent::__construct($registry, UserCard::class);
     }
 
-    public function countByUserAndCard(User $user, Card $card): int
-    {
-        return (int) $this->createQueryBuilder('uc')
-            ->select('COUNT(uc.id)')
-            ->andWhere('uc.user = :user')
-            ->andWhere('uc.card = :card')
-            ->setParameter('user', $user)
-            ->setParameter('card', $card)
-            ->getQuery()
-            ->getSingleScalarResult();
-    }
+    // public function countByUserAndCard(User $user, Card $card): int
+    // {
+    //     return (int) $this->createQueryBuilder('uc')
+    //         ->select('COUNT(uc.id)')
+    //         ->andWhere('uc.user = :user')
+    //         ->andWhere('uc.card = :card')
+    //         ->setParameter('user', $user)
+    //         ->setParameter('card', $card)
+    //         ->getQuery()
+    //         ->getSingleScalarResult();
+    // }
 
 }

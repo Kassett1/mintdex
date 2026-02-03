@@ -12,6 +12,8 @@ export default class extends Controller {
     sendData(event) {
         event.preventDefault();
 
+        console.log("test");
+
         const form = event.currentTarget;
         const formData = new FormData(form);
 

@@ -16,11 +16,13 @@ final class CardPageController extends AbstractController
 
         $user = $this->getUser();
 
-        $cardCount = $ucr->countByUserAndCard($user, $card);
+        $cards = $user
+            ? $ucr->findBy(['user' => $user, 'card' => $card])
+            : null;
 
         return $this->render('card_page/index.html.twig', [
-            'card'      => $card,
-            'cardCount' => $cardCount,
+            'card'  => $card,
+            'cards' => $cards,
         ]);
     }
 }

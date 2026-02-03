@@ -34,7 +34,7 @@ class Set
     /**
      * @var Collection<int, Card>
      */
-    #[ORM\OneToMany(targetEntity: Card::class, mappedBy: 'setId')]
+    #[ORM\OneToMany(targetEntity: Card::class, mappedBy: 'set')]
     private Collection $cards;
 
     public function __construct()

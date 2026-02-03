@@ -13,6 +13,7 @@ final class SetPageController extends AbstractController
     #[Route('/set/{slug}', name: 'app_set_page')]
     public function index(SetRepository $sr, CardRepository $cr, string $slug): Response
     {
+        // UTILISER set->getCard() ici
         $selectedSet = $sr->findOneBy(['slug' => $slug]);
         $cards = $cr->findBy(['set' => $selectedSet]);
 
