@@ -29,4 +29,16 @@ class UserCardRepository extends ServiceEntityRepository
     //         ->getSingleScalarResult();
     // }
 
+    public function findOwnedCardsBySet($user, $set)
+    {
+        return $this->createQueryBuilder('uc')
+            ->join('uc.card', 'c')
+            ->where('uc.user = :user')
+            ->andWhere('c.set = :set')
+            ->setParameter('user', $user)
+            ->setParameter('set', $set)
+            ->getQuery()
+            ->getResult();
+    }
+
 }
