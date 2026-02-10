@@ -15,43 +15,20 @@ export default class extends Controller {
         const form = event.currentTarget.closest("form");
         const formData = new FormData(form);
 
-        let liSpinner;
-
+        // 1. Logique bouton (+ → ✓)
         if (form.dataset.hidden === "true") {
-            form.classList.add("hidden");
-
-            const button = form.parentElement.querySelector(
-                'button[data-action="click->add-card#toggle"]',
-            );
-
-            button.classList.remove("bg-orange-300");
-            button.classList.add("bg-green-300");
-
-            button.innerHTML = `
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-full h-full">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/>
-            </svg>
-        `;
+            this.handleToggleButton(form);
         }
 
+        // 2. Logique liste + spinner
+        let liSpinner = null;
         if (form.dataset.addToList === "true") {
-            liSpinner = document.createElement("li");
-            liSpinner.className =
-                "flex items-center justify-center p-2 bg-gray-100 rounded border";
-            liSpinner.innerHTML = `
-            <svg class="mr-3 -ml-1 size-5 animate-spin" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-            </svg>
-        `;
-            this.cardListTarget.appendChild(liSpinner);
+            liSpinner = this.handleListAdd();
         }
 
         fetch("/collection/add/card", {
             method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
+            headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
                 cardId: formData.get("cardId"),
                 condition: formData.get("cardCondition"),
@@ -88,5 +65,45 @@ export default class extends Controller {
         `;
 
         this.cardListTarget.appendChild(li);
+    }
+
+    handleToggleButton(form) {
+        form.classList.add("hidden");
+
+        const button = form.parentElement.querySelector(
+            'button[data-action="click->add-card#toggle"]',
+        );
+
+        if (!button) return;
+
+        button.classList.remove("bg-orange-300");
+        button.classList.add("bg-green-300");
+
+        button.innerHTML = `
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+             stroke-width="1.5" stroke="currentColor" class="w-full h-full">
+            <path stroke-linecap="round" stroke-linejoin="round"
+                  d="M4.5 12.75l6 6 9-13.5"/>
+        </svg>
+    `;
+    }
+
+    handleListAdd() {
+        const liSpinner = document.createElement("li");
+        liSpinner.className =
+            "flex items-center justify-center p-2 bg-gray-100 rounded border";
+
+        liSpinner.innerHTML = `
+        <svg class="h-5 w-5 animate-spin text-gray-500"
+             xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+            <circle class="opacity-25" cx="12" cy="12" r="10"
+                    stroke="currentColor" stroke-width="4"></circle>
+            <path class="opacity-75" fill="currentColor"
+                  d="M4 12a8 8 0 018-8v8H4z"></path>
+        </svg>
+    `;
+
+        this.cardListTarget.appendChild(liSpinner);
+        return liSpinner;
     }
 }
