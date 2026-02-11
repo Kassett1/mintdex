@@ -1,7 +1,14 @@
 import { Controller } from "@hotwired/stimulus";
 
 export default class extends Controller {
-    static targets = ["video", "canvas", "result"];
+    static targets = [
+        "video",
+        "canvas",
+        "frame",
+        "rawPreview",
+        "cropPreview",
+        "result",
+    ];
 
     connect() {
         this.startCamera();
@@ -21,21 +28,38 @@ export default class extends Controller {
 
     capture() {
         const video = this.videoTarget;
+        const frame = this.frameTarget;
         const canvas = this.canvasTarget;
         const ctx = canvas.getContext("2d");
 
-        canvas.width = video.videoWidth;
-        canvas.height = video.videoHeight;
+        const vw = video.videoWidth;
+        const vh = video.videoHeight;
 
-        ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+        const frameRect = frame.getBoundingClientRect();
+        const frameRatio = frameRect.width / frameRect.height;
+        const videoRatio = vw / vh;
 
-        // Convertit le canvas en image
-        const imgData = canvas.toDataURL("image/png");
+        let sx, sy, sw, sh;
 
-        // Crée un <img> et remplace la vidéo
-        const img = document.createElement("img");
-        img.src = imgData;
-        img.className = video.className;
-        video.replaceWith(img);
+        if (videoRatio > frameRatio) {
+            // vidéo trop large → crop gauche/droite
+            sh = vh;
+            sw = vh * frameRatio;
+            sx = (vw - sw) / 2;
+            sy = 0;
+        } else {
+            // vidéo trop haute → crop haut/bas
+            sw = vw;
+            sh = vw / frameRatio;
+            sx = 0;
+            sy = (vh - sh) / 2;
+        }
+
+        canvas.width = sw;
+        canvas.height = sh;
+
+        ctx.drawImage(video, sx, sy, sw, sh, 0, 0, sw, sh);
+
+        this.cropPreviewTarget.src = canvas.toDataURL("image/png");
     }
 }
