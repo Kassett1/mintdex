@@ -5,9 +5,9 @@
 /.env.*.local
 /config/secrets/prod/prod.decrypt.private.php
 /public/bundles/
-/var/
-!var/tailwind/app.built.css
-var/tailwind/v4.1.11/
+/var/**
+!/var/tailwind/
+!/var/tailwind/app.built.css
 /vendor/
 ###< symfony/framework-bundle ###
 
