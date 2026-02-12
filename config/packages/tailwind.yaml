@@ -1,0 +1,3 @@
+tailwind:
+    input: '%kernel.project_dir%/assets/styles/app.css'
+    output: '%kernel.project_dir%/public/build/app.css'
