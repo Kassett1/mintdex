@@ -8,6 +8,7 @@ export default class extends Controller {
         "rawPreview",
         "cropPreview",
         "result",
+        "extractedName",
     ];
 
     connect() {
@@ -61,5 +62,35 @@ export default class extends Controller {
         ctx.drawImage(video, sx, sy, sw, sh, 0, 0, sw, sh);
 
         this.cropPreviewTarget.src = canvas.toDataURL("image/png");
+
+        this.extractName(canvas);
+    }
+
+    extractName(sourceCanvas) {
+        const sw = sourceCanvas.width;
+        const sh = sourceCanvas.height;
+
+        const nameCanvas = document.createElement("canvas");
+        const ctx = nameCanvas.getContext("2d");
+
+        // Zone du nom (haut gauche)
+        nameCanvas.width = sw * 0.4;
+        nameCanvas.height = sh * 0.15;
+
+        ctx.filter = "contrast(200%) brightness(110%) grayscale(100%)";
+
+        ctx.drawImage(
+            sourceCanvas,
+            0,
+            0,
+            nameCanvas.width,
+            nameCanvas.height,
+            0,
+            0,
+            nameCanvas.width,
+            nameCanvas.height,
+        );
+
+        this.extractedNameTarget.src = nameCanvas.toDataURL("image/png");
     }
 }
