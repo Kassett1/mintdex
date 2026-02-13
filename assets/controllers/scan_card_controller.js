@@ -1,4 +1,5 @@
 import { Controller } from "@hotwired/stimulus";
+import Tesseract from "tesseract.js";
 
 export default class extends Controller {
     static targets = [
@@ -66,7 +67,7 @@ export default class extends Controller {
         this.extractName(canvas);
     }
 
-    extractName(sourceCanvas) {
+    async extractName(sourceCanvas) {
         const sw = sourceCanvas.width;
         const sh = sourceCanvas.height;
 
@@ -74,7 +75,7 @@ export default class extends Controller {
         const ctx = nameCanvas.getContext("2d");
 
         // Zone du nom (haut gauche)
-        nameCanvas.width = sw * 0.4;
+        nameCanvas.width = sw * 0.6;
         nameCanvas.height = sh * 0.15;
 
         ctx.filter = "contrast(200%) brightness(110%) grayscale(100%)";
@@ -92,5 +93,10 @@ export default class extends Controller {
         );
 
         this.extractedNameTarget.src = nameCanvas.toDataURL("image/png");
+
+        const result = await Tesseract.recognize(nameCanvas, "eng");
+        const text = result.data.text.trim().split("\n")[0];
+        console.log(text);
+        this.resultTarget.textContent = text;
     }
 }
