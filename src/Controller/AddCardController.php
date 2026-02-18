@@ -3,6 +3,7 @@ namespace App\Controller;
 
 use App\Entity\Card;
 use App\Entity\UserCard;
+use App\Entity\WishlistCard;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -50,6 +51,47 @@ final class AddCardController extends AbstractController
                 'id'        => $userCard->getId(),
                 'name'      => $userCard->getCard()->getName(),
                 'condition' => $userCard->getCardCondition(),
+            ],
+        ]);
+    }
+
+    #[Route('/wishlist/add/card', name: 'app_add_to_wishlist', methods: ['POST'])]
+    public function addToWishlist(Request $request, EntityManagerInterface $em): JsonResponse
+    {
+        $data = json_decode($request->getContent(), true);
+
+        // 1. vérifier qu'on a un utilisateur connecté
+        $user = $this->getUser() ?? null;
+        if (! $user) {
+            return new JsonResponse(['success' => false, 'message' => 'Utilisateur non connecté'], 401);
+        }
+
+        // 2. récupérer la carte
+        $cardId = $data['cardId'] ?? null;
+        if (! $cardId) {
+            return new JsonResponse(['success' => false, 'message' => 'Pas de carte spécifiée'], 400);
+        }
+
+        $card = $em->getRepository(Card::class)->find($cardId);
+        if (! $card) {
+            return new JsonResponse(['success' => false, 'message' => 'Carte introuvable'], 404);
+        }
+
+        // 3. créer la nouvelle entité UserCard
+        $userCard = new WishlistCard();
+        $userCard->setUser($user);
+        $userCard->setCard($card);
+
+        // 4. persister en BDD
+        $em->persist($userCard);
+        $em->flush();
+
+        // 5. renvoyer JSON OK
+        return new JsonResponse([
+            'success' => true,
+            'card'    => [
+                'id'        => $userCard->getId(),
+                'name'      => $userCard->getCard()->getName(),
             ],
         ]);
     }

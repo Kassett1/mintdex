@@ -44,9 +44,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(targetEntity: UserCard::class, mappedBy: 'user')]
     private Collection $userCards;
 
+    /**
+     * @var Collection<int, WishlistCard>
+     */
+    #[ORM\OneToMany(targetEntity: WishlistCard::class, mappedBy: 'user')]
+    private Collection $wishlistCards;
+
     public function __construct()
     {
         $this->userCards = new ArrayCollection();
+        $this->wishlistCards = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -166,6 +173,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             // set the owning side to null (unless already changed)
             if ($userCard->getUser() === $this) {
                 $userCard->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, WishlistCard>
+     */
+    public function getWishlistCards(): Collection
+    {
+        return $this->wishlistCards;
+    }
+
+    public function addWishlistCard(WishlistCard $wishlistCard): static
+    {
+        if (!$this->wishlistCards->contains($wishlistCard)) {
+            $this->wishlistCards->add($wishlistCard);
+            $wishlistCard->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeWishlistCard(WishlistCard $wishlistCard): static
+    {
+        if ($this->wishlistCards->removeElement($wishlistCard)) {
+            // set the owning side to null (unless already changed)
+            if ($wishlistCard->getUser() === $this) {
+                $wishlistCard->setUser(null);
             }
         }
 

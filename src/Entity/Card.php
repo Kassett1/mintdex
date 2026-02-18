@@ -39,9 +39,16 @@ class Card
     #[ORM\OneToMany(targetEntity: UserCard::class, mappedBy: 'card')]
     private Collection $userCards;
 
+    /**
+     * @var Collection<int, WishlistCard>
+     */
+    #[ORM\OneToMany(targetEntity: WishlistCard::class, mappedBy: 'card')]
+    private Collection $wishlistCards;
+
     public function __construct()
     {
         $this->userCards = new ArrayCollection();
+        $this->wishlistCards = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -145,6 +152,36 @@ class Card
             // set the owning side to null (unless already changed)
             if ($userCard->getCard() === $this) {
                 $userCard->setCard(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, WishlistCard>
+     */
+    public function getWishlistCards(): Collection
+    {
+        return $this->wishlistCards;
+    }
+
+    public function addWishlistCard(WishlistCard $wishlistCard): static
+    {
+        if (!$this->wishlistCards->contains($wishlistCard)) {
+            $this->wishlistCards->add($wishlistCard);
+            $wishlistCard->setCard($this);
+        }
+
+        return $this;
+    }
+
+    public function removeWishlistCard(WishlistCard $wishlistCard): static
+    {
+        if ($this->wishlistCards->removeElement($wishlistCard)) {
+            // set the owning side to null (unless already changed)
+            if ($wishlistCard->getCard() === $this) {
+                $wishlistCard->setCard(null);
             }
         }
 
