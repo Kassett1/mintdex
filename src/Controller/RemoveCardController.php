@@ -2,6 +2,7 @@
 namespace App\Controller;
 
 use App\Entity\UserCard;
+use App\Entity\WishlistCard;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -29,6 +30,39 @@ final class RemoveCardController extends AbstractController
 
         $card = $em->getRepository(UserCard::class)->findOneBy([
             'id'   => $cardId,
+            'user' => $user,
+        ]);
+        if (! $card) {
+            return new JsonResponse(['success' => false, 'message' => 'Carte introuvable'], 404);
+        }
+
+        // 3. supprimer la UserCard
+        $em->remove($card);
+        $em->flush();
+
+        // 4. renvoyer JSON OK
+        return new JsonResponse(['success' => true]);
+    }
+
+    #[Route('/wishlist/remove/card', name: 'app_remove_from_wishlist', methods: ['POST'])]
+    public function removeFromWishlist(Request $request, EntityManagerInterface $em): JsonResponse
+    {
+        $data = json_decode($request->getContent(), true);
+
+        // 1. vérifier qu'on a un utilisateur connecté
+        $user = $this->getUser() ?? null;
+        if (! $user) {
+            return new JsonResponse(['success' => false, 'message' => 'Utilisateur non connecté'], 401);
+        }
+
+        // 2. récupérer la carte
+        $cardId = $data['cardId'] ?? null;
+        if (! $cardId) {
+            return new JsonResponse(['success' => false, 'message' => 'Pas de carte spécifiée'], 400);
+        }
+
+        $card = $em->getRepository(WishlistCard::class)->findOneBy([
+            'card'   => $cardId,
             'user' => $user,
         ]);
         if (! $card) {
