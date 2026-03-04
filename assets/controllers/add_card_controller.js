@@ -76,8 +76,8 @@ export default class extends Controller {
 
         if (!button) return;
 
-        button.classList.remove("bg-orange-300");
-        button.classList.add("bg-green-300");
+        button.classList.remove("bg-orange-500/30");
+        button.classList.add("bg-green-500/30");
 
         button.innerHTML = `
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"

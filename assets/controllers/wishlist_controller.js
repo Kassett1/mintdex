@@ -30,9 +30,6 @@ export default class extends Controller {
     }
 
     updateUI(button, inWishlist) {
-        button.classList.toggle("bg-red-500");
-        button.classList.toggle("bg-pink-300");
-
         const svg = button.querySelector("svg");
         svg.setAttribute("fill", inWishlist ? "currentColor" : "none");
     }

@@ -17,33 +17,47 @@
 			{{ encore_entry_script_tags('app') }}
 		{% endblock %}
 	</head>
-	<body>
+	<body class="bg-indigo-50">
+		<nav class="sticky top-5 mx-5 z-10" data-controller="menu">
+			<div class="flex items-center justify-between py-2 px-5
+													bg-indigo-950/40 backdrop-blur-lg
+													rounded-xl shadow-md">
 
-		<nav class="bg-white border-b" data-controller="menu">
-			<div class="max-w-7xl mx-auto px-4">
-				<div class="flex h-16 items-center justify-between">
+				<a href="{{ path('app_home') }}" class="inline-block">
+					<img src="{{ asset('images/logo_mintdex.webp') }}" alt="Mintdex" class="w-8 h-8 md:w-15 md:h-15">
+				</a>
 
-					<a href="{{ path('app_home') }}" class="text-xl font-bold">Logo</a>
-
-					<div class="hidden md:flex space-x-6">
-						<a href="{{ path('app_register') }}">Register</a>
-						<a href="{{ path('app_login') }}">Login</a>
-					</div>
-
-					<button class="md:hidden p-2" data-action="click->menu#toggle" aria-label="Menu">
-						☰
-					</button>
-				</div>
-			</div>
-
-			<div data-menu-target="menu" class="md:hidden hidden border-t">
-				<div class="flex flex-col px-4 py-3 space-y-2">
+				<div class="hidden md:flex space-x-6">
 					<a href="{{ path('app_register') }}">Register</a>
 					<a href="{{ path('app_login') }}">Login</a>
 				</div>
+
+				<!-- Burger mobile -->
+				<button class="md:hidden nav-icon relative w-6 h-6" data-action="click->menu#toggle" aria-label="Menu" aria-expanded="false">
+					<span class="bg-white"></span>
+					<span class="bg-white"></span>
+					<span class="bg-white"></span>
+					<span class="bg-white"></span>
+				</button>
+			</div>
+
+			<div data-menu-target="menu" class="md:hidden absolute w-full px-3 py-2 mt-1
+					           bg-indigo-950/40 backdrop-blur-lg
+					           rounded-xl shadow-md
+					           opacity-0 scale-95 -translate-y-2
+					           pointer-events-none
+					           transition-all duration-300 ease-out">
+
+				<div class="flex flex-col gap-2">
+					<a href="{{ path('app_register') }}" class="text-white font-sora text-base">
+						Register
+					</a>
+					<a href="{{ path('app_login') }}" class="text-white font-sora text-base ">
+						Login
+					</a>
+				</div>
 			</div>
 		</nav>
-
 
 		{% block body %}{% endblock %}
 	</body>
