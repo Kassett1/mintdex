@@ -75,3 +75,9 @@
   font-style: normal;
   font-display: swap;
 }
+
+@theme {
+    --font-bricolage: "Bricolage", sans-serif;
+    --font-sora: "Sora", sans-serif;
+    --font-inter: "Inter", sans-serif;
+}

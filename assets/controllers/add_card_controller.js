@@ -7,6 +7,7 @@ export default class extends Controller {
         const cardItem = event.currentTarget.closest("li");
         const form = cardItem.querySelector('[data-add-card-target="form"]');
         form.classList.toggle("hidden");
+        form.classList.toggle('translate-y-full');
     }
 
     sendData(event) {

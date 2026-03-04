@@ -4,8 +4,10 @@
 {% endblock %}
 
 {% block body %}
-	<div data-controller="add-card wishlist">
-		<ul class="grid grid-cols-3 gap-2 mx-5 my-10">
+	<div data-controller="add-card wishlist" class="mx-5">
+		<img src="{{set.logo}}.webp" alt="{{set.name}}" class="mt-10 w-full h-auto">
+
+		<ul class="grid grid-cols-3 gap-2 my-10">
 			{% for card in cards %}
 				<li class="relative">
 					<a href="{{ path('app_card_page', { slug: card.slug }) }}">
@@ -13,9 +15,8 @@
 					</a>
 
 					{% if app.user %}
-						<div class="flex absolute bottom-0 z-5 justify-between w-full items-end">
-							<button class="w-6 h-6 rounded flex items-center justify-center transition bg-pink-500/30 backdrop-blur-sm text-white"
-							data-action="click->wishlist#toggle" data-wishlist-card-id="{{ card.id }}" data-wishlist-initial-value="{{ card.id in wishlistCards ? 'true' : 'false' }}">
+						<div class="flex absolute bottom-0 justify-between w-full items-end">
+							<button class="w-6 h-6 rounded flex items-center justify-center transition bg-pink-500/30 backdrop-blur-sm text-white" data-action="click->wishlist#toggle" data-wishlist-card-id="{{ card.id }}" data-wishlist-initial-value="{{ card.id in wishlistCards ? 'true' : 'false' }}">
 								<svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="{{ card.id in wishlistCards ? 'currentColor' : 'none' }}" class="w-5 h-5">
 									<path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z"/>
 								</svg>
@@ -24,7 +25,7 @@
 								{% set isOwned = card.id in ownedCards %}
 
 								<button class="w-6 h-6 rounded flex items-center justify-center transition backdrop-blur-sm text-white
-									           {{ isOwned ? 'bg-green-500/30 text-white shadow-md' : 'bg-orange-500/30 text-white shadow-md' }}" data-action="click->add-card#toggle">
+										{{ isOwned ? 'bg-green-500/30 text-white shadow-md' : 'bg-orange-500/30 text-white shadow-md' }}" data-action="click->add-card#toggle">
 									<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewbox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-full h-full">
 
 										{% if isOwned %}
@@ -36,11 +37,12 @@
 									</svg>
 								</button>
 
-								<form data-add-card-target="form" data-action="submit->add-card#sendData" class="hidden absolute bg-indigo-950/40 backdrop-blur-lg rounded-xl shadow-md p-2 w-[90%] left-1/2 -translate-x-1/2 bottom-8" data-hidden="true" data-add-to-list="false">
+								<form data-add-card-target="form" data-action="submit->add-card#sendData" class="hidden fixed bottom-0 left-1/2 -translate-x-1/2 w-[calc(100%-20px)] bg-indigo-950/40 backdrop-blur-lg rounded-t-xl shadow-md p-4
+									           transform translate-y-full transition-transform duration-300 ease-out z-5" data-hidden="true" data-add-to-list="false">
 									<input type="hidden" name="cardId" value="{{ card.id }}">
 
-									<label class="block text-sm">État :</label>
-									<select name="cardCondition" class="text-sm">
+									<label class="block text-sm font-inter mb-1">État :</label>
+									<select name="cardCondition" class="text-sm font-inter w-full mb-2 p-1 rounded">
 										<option value="mt">Mint</option>
 										<option value="nm" selected>Near Mint</option>
 										<option value="ex">Excellent</option>
@@ -50,7 +52,7 @@
 										<option value="po">Poor</option>
 									</select>
 
-									<button type="submit" class="mt-1 text-sm bg-orange-300 rounded px-2">
+									<button type="submit" class="w-full bg-orange-300 text-sm rounded py-2">
 										Ajouter
 									</button>
 								</form>
