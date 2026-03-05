@@ -17,11 +17,10 @@ export default class extends Controller {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ cardId: cardId }),
-        })
-            .then((response) => {
-                if (!response.ok) throw new Error("Erreur");
-                return response.json();
-            })
+        }).then((response) => {
+            if (!response.ok) throw new Error("Erreur");
+            return response.json();
+        });
 
         inWishlist = !inWishlist;
         button.dataset.wishlistInitialValue = inWishlist.toString();
@@ -30,7 +29,11 @@ export default class extends Controller {
     }
 
     updateUI(button, inWishlist) {
+        button.classList.toggle("bg-pink-500/30");
+        button.classList.toggle("bg-indigo-900/30");
+
         const svg = button.querySelector("svg");
+
         svg.setAttribute("fill", inWishlist ? "currentColor" : "none");
     }
 }
