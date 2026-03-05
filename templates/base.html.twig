@@ -17,10 +17,10 @@
 			{{ encore_entry_script_tags('app') }}
 		{% endblock %}
 	</head>
-	<body class="bg-indigo-50">
+	<body class="bg-violet-50">
 		<nav class="sticky top-5 mx-5 z-10" data-controller="menu">
 			<div class="flex items-center justify-between py-2 px-5
-													bg-indigo-950/40 backdrop-blur-lg
+													bg-violet-950/40 backdrop-blur-lg
 													rounded-xl shadow-md">
 
 				<a href="{{ path('app_home') }}" class="inline-block">
@@ -32,6 +32,8 @@
 					<a href="{{ path('app_login') }}">Login</a>
 				</div>
 
+				<h2 class="font-bricolage text-lg text-white">{{page}}</h2>
+
 				<!-- Burger mobile -->
 				<button class="md:hidden nav-icon relative w-6 h-6" data-action="click->menu#toggle" aria-label="Menu" aria-expanded="false">
 					<span class="bg-white"></span>
@@ -42,7 +44,7 @@
 			</div>
 
 			<div data-menu-target="menu" class="md:hidden absolute w-full px-3 py-2 mt-1
-					           bg-indigo-950/40 backdrop-blur-lg
+					           bg-violet-950/40 backdrop-blur-lg
 					           rounded-xl shadow-md
 					           opacity-0 scale-95 -translate-y-2
 					           pointer-events-none

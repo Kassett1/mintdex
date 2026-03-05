@@ -5,24 +5,24 @@
 
 {% block body %}
 	<!-- Formulaire de recherche -->
-	<form action="{{ path('app_search_page') }}" method="get" class="">
-		<input type="text" name="q" placeholder="Rechercher une carte…" required class="">
-		<button type="submit" class="">
+	<form action="{{ path('app_search_page') }}" method="get" class="mt-10 mx-5 flex justify-center gap-2">
+		<input type="text" name="q" placeholder="Rechercher une carte…" required class="rounded-xl border border-violet-100 shadow-sm focus:outline-none focus:ring-2 focus:ring-violet-300 focus:border-violet-300 text-sm px-2 py-1 font-inter bg-white">
+		<button type="submit" class="bg-violet-200 backdrop-blur-lg rounded-xl border border-violet-200 shadow-sm px-2 py-1 text-violet-900 font-sora text-sm">
 			Rechercher
 		</button>
 	</form>
 
 	<!-- Blocs avec sets -->
-	<section class="">
+	<section class="mx-5 mt-5 flex flex-col gap-3">
 		{% for bws in blocsWithSets|reverse %}
-			<div class="">
-				<h2 class="">{{ bws["bloc"].name|e }}</h2>
+			<div class="border-violet-100 shadow-sm rounded-xl px-2 py-2 bg-white">
+				<h2 class="text-lg font-sora text-violet-900">{{ bws["bloc"].name|e }}</h2>
 
-				<ul class="">
+				<ul class="mt-5 flex gap-2 flex-wrap items-center">
 					{% for set in bws["sets"]|reverse %}
-						<li>
-							<a href="{{ path('app_set_page', { slug: set.slug }) }}" class="">
-								<img src="{{ set.symbol }}.webp" alt={{ set.name }}/>
+						<li class="w-6">
+							<a href="{{ path('app_set_page', { slug: set.slug }) }}">
+								<img src="{{ set.symbol }}.webp" alt={{ set.name }} class="w-full h-auto"/>
 							</a>
 						</li>
 					{% endfor %}
@@ -31,4 +31,4 @@
 		{% endfor %}
 	</section>
 
-</div>{% endblock %}
+{% endblock %}

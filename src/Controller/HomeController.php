@@ -32,6 +32,7 @@ final class HomeController extends AbstractController
 
         return $this->render('home/index.html.twig', [
             'blocsWithSets' => $blocsWithSets,
+            'page' => "Accueil"
         ]);
     }
 }

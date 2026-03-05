@@ -41,6 +41,7 @@ final class SetPageController extends AbstractController
             'ownedCards'    => $ownedCards,
             'wishlistCards' => $wishlistCards,
             'set' => $set,
+            'page' => "Set"
         ]);
     }
 }

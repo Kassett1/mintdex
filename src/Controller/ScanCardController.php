@@ -13,6 +13,7 @@ final class ScanCardController extends AbstractController
     {
         return $this->render('scan_card/index.html.twig', [
             'controller_name' => 'ScanCardController',
+            'page' => "Scan"
         ]);
     }
 }

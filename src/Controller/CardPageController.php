@@ -33,6 +33,7 @@ final class CardPageController extends AbstractController
             'card'  => $card,
             'cards' => $cards,
             'wishlistCards' => $wishlistCards,
+            'page' => "Carte"
         ]);
     }
 }
