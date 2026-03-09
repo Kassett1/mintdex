@@ -18,7 +18,7 @@
 			<div class="border-violet-100 shadow-sm rounded-xl px-2 py-2 bg-white">
 				<h2 class="text-lg font-sora text-violet-900">{{ bws["bloc"].name|e }}</h2>
 
-				<ul class="mt-5 flex gap-2 flex-wrap items-center">
+				<ul class="mt-5 flex gap-3 flex-wrap items-center">
 					{% for set in bws["sets"]|reverse %}
 						<li class="w-6">
 							<a href="{{ path('app_set_page', { slug: set.slug }) }}">
