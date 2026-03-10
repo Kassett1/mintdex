@@ -1,38 +1,53 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Log in!{% endblock %}
+{% block title %}Log in!
+{% endblock %}
 
 {% block body %}
-    <form method="post">
-        {% if error %}
-            <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-        {% endif %}
+	<form method="post" class="mt-10 mx-5">
+		{% if error %}
+			<div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+		{% endif %}
 
-        {% if app.user %}
-            <div class="mb-3">
-                You are logged in as {{ app.user.userIdentifier }}, <a href="{{ logout_path() }}">Logout</a>
-            </div>
-        {% endif %}
+		<h1 class="mt-10 font-bricolage text-lg text-center">Se connecter</h1>
 
-        <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
-        <label for="username">Email</label>
-        <input type="email" value="{{ last_username }}" name="_username" id="username" class="form-control" autocomplete="email" required autofocus>
-        <label for="password">Password</label>
-        <input type="password" name="_password" id="password" class="form-control" autocomplete="current-password" required>
-        <input type="hidden" name="_csrf_token" data-controller="csrf-protection" value="{{ csrf_token('authenticate') }}">
+		{% if app.user %}
+			<div class="mb-3 mt-5 text-xs font-inter">
+				Vous êtes connecté en tant que
+				{{ app.user.userIdentifier }},
+				<a href="{{ logout_path() }}" class="text-violet-500">Déconnexion</a>
+			</div>
+		{% endif %}
 
-        {#
-            Uncomment this section and add a remember_me option below your firewall to activate remember me functionality.
-            See https://symfony.com/doc/current/security/remember_me.html
+		<div class="flex border-violet-100 shadow-sm rounded-xl bg-white px-2 py-1 gap-2 mt-5">
+			<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewbox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6 text-violet-900">
+				<path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25h-15a2.25 2.25 0 0 1-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25m19.5 0v.243a2.25 2.25 0 0 1-1.07 1.916l-7.5 4.615a2.25 2.25 0 0 1-2.36 0L3.32 8.91a2.25 2.25 0 0 1-1.07-1.916V6.75"/>
+			</svg>
+			{# <label for="username">Email</label> #}
+			<input type="email" value="{{ last_username }}" placeholder: "Email" name="_username" id="username" class="form-control font-inter text-sm ml-1 w-full rounded-xl outline-none focus:outline-none focus:ring-2 focus:ring-violet-300 focus:border-violet-300 px-1" autocomplete="email" required autofocus>
+		</div>
 
-            <div class="checkbox mb-3">
-                <input type="checkbox" name="_remember_me" id="_remember_me">
-                <label for="_remember_me">Remember me</label>
-            </div>
-        #}
+		<div class="flex border-violet-100 shadow-sm rounded-xl bg-white px-2 py-1 gap-2 mt-2">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewbox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6 text-violet-900">
+			<path stroke-linecap="round" stroke-linejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 1 0-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 0 0 2.25-2.25v-6.75a2.25 2.25 0 0 0-2.25-2.25H6.75a2.25 2.25 0 0 0-2.25 2.25v6.75a2.25 2.25 0 0 0 2.25 2.25Z"/>
+		</svg>
+			{# <label for="password">Password</label> #}
+			<input type="password" name="_password" id="password" placeholder: "Mot de passe" class="form-control font-inter text-sm ml-1 w-full rounded-xl outline-none focus:outline-none focus:ring-2 focus:ring-violet-300 focus:border-violet-300 px-1" autocomplete="current-password" required>
+			<input type="hidden" name="_csrf_token" data-controller="csrf-protection" value="{{ csrf_token('authenticate') }}">
+		</div>
 
-        <button class="btn btn-lg btn-primary" type="submit">
-            Sign in
-        </button>
-    </form>
+		{#
+				            Uncomment this section and add a remember_me option below your firewall to activate remember me functionality.
+				            See https://symfony.com/doc/current/security/remember_me.html
+				
+				            <div class="checkbox mb-3">
+				                <input type="checkbox" name="_remember_me" id="_remember_me">
+				                <label for="_remember_me">Remember me</label>
+				            </div>
+				        #}
+
+		<button class="btn btn-lg btn-primary bg-violet-200 backdrop-blur-lg rounded-xl border border-violet-200 shadow-sm px-2 py-1 text-violet-900 font-sora text-sm block mx-auto mt-5" type="submit">
+			Connexion
+		</button>
+	</form>
 {% endblock %}
