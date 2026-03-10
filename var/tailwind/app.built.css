@@ -428,9 +428,6 @@
   .justify-center {
     justify-content: center;
   }
-  .gap-1 {
-    gap: calc(var(--spacing) * 1);
-  }
   .gap-2 {
     gap: calc(var(--spacing) * 2);
   }
@@ -568,6 +565,9 @@
   .p-4 {
     padding: calc(var(--spacing) * 4);
   }
+  .px-1 {
+    padding-inline: calc(var(--spacing) * 1);
+  }
   .px-2 {
     padding-inline: calc(var(--spacing) * 2);
   }
@@ -635,6 +635,9 @@
   .text-red-500 {
     color: var(--color-red-500);
   }
+  .text-violet-500 {
+    color: var(--color-violet-500);
+  }
   .text-violet-900 {
     color: var(--color-violet-900);
   }
@@ -699,6 +702,10 @@
   .ease-out {
     --tw-ease: var(--ease-out);
     transition-timing-function: var(--ease-out);
+  }
+  .outline-none {
+    --tw-outline-style: none;
+    outline-style: none;
   }
   .hover\:bg-orange-400 {
     &:hover {
