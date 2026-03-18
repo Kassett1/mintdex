@@ -45,7 +45,7 @@ class Card
     #[ORM\OneToMany(targetEntity: WishlistCard::class, mappedBy: 'card')]
     private Collection $wishlistCards;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, nullable: true)]
     private ?string $cardmarketId = null;
 
     public function __construct()

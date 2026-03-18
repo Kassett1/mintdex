@@ -58,4 +58,17 @@ class PokemonCardsService
         return null;
     }
 
+    public function fetchCardById(string $id): array
+    {
+        try {
+            $response = $this->httpClient->request('GET', 'cards/' . $id);
+            return $response->toArray();
+
+        } catch (TransportExceptionInterface $e) {
+            throw new \RuntimeException('Erreur API (card ' . $id . ')', 0, $e);
+
+        } catch (HttpExceptionInterface $e) {
+            throw $e;
+        }
+    }
 }

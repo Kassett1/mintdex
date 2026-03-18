@@ -44,7 +44,7 @@ final class CardPageController extends AbstractController
         $cardNameURL = formatNameForURL($card->getName());
         $cardNumber  = $card->getLocalId() . '%2F' . $card->getset()->getCardCount();
 
-        $cardmarketLink = "https://www.cardmarket.com/Pokemon/Products?idProduct=";
+        $cardmarketLink = "https://www.cardmarket.com/Pokemon/Products?idProduct={$card->getCardmarketId()}";
         $ebayLink       = "";
         $vintedLink     = "https://www.vinted.fr/catalog?search_text={$cardNameURL}+{$cardNumber}";
 

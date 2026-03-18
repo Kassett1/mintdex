@@ -25,6 +25,7 @@ class FetchTCGDexCommand extends Command
             'app:fetch-blocs',
             'app:fetch-sets',
             'app:fetch-cards',
+            'app:enrich-cards',
         ];
 
         foreach ($commands as $commandName) {

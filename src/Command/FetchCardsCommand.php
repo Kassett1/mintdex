@@ -12,7 +12,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 #[AsCommand(
     name: 'app:fetch-cards',
-    description: 'Récupère les cartes depuis l API Pokémon TCG API',
+    description: 'Récupère et synchronise les cartes depuis l API Pokémon TCG',
 )]
 class FetchCardsCommand extends Command
 {
@@ -26,42 +26,57 @@ class FetchCardsCommand extends Command
         $this->em                  = $em;
     }
 
-    private function pushCards(EntityManagerInterface $em, array $cards, OutputInterface $output)
+    private function pushCards(array $cards, OutputInterface $output)
     {
         $batchSize = 200;
-        $i = 0;
+        $i         = 0;
 
         $progressBar = new ProgressBar($output, count($cards));
         $progressBar->start();
+
+        // 1. Charger toutes les cartes existantes en mémoire (OPTIMISATION)
+        $existingCards = $this->em->getRepository(Card::class)->findAll();
+
+        $cardsMap = [];
+        foreach ($existingCards as $existing) {
+            $key            = $existing->getSlug() . '_' . $existing->getLocalId();
+            $cardsMap[$key] = $existing;
+        }
 
         foreach ($cards as $c) {
 
             $set = $this->pokemonCardsService->detectSet($c);
 
-            // si null → on ignore (TCGP ou set inconnu)
+            // Ignore les cartes sans set
             if (! $set) {
                 $progressBar->advance();
                 continue;
             }
 
-            $card = new Card();
+            // Clé unique pour identifier une carte
+            $key = $c['id'] . '_' . $c['localId'];
 
+            // 2. Vérifie si la carte existe déjà
+            if (isset($cardsMap[$key])) {
+                $card = $cardsMap[$key]; // UPDATE
+            } else {
+                $card = new Card(); // CREATE
+                $this->em->persist($card);
+            }
+
+            // 3. Mise à jour des données (update OU create)
             $card->setName($c['name']);
             $card->setSlug($c['id']);
             $card->setLocalId($c['localId']);
-
             if (! empty($c['image'])) {
                 $card->setImage($c['image']);
             }
-
             $card->setSet($set);
 
-            $em->persist($card);
-
-            // 🟢 BATCH FLUSH
+            // BATCH FLUSH pour éviter surcharge mémoire
             if (($i % $batchSize) === 0) {
-                $em->flush();
-                $em->clear(Card::class); // libère la mémoire
+                $this->em->flush();
+                $this->em->clear();
             }
 
             $i++;
@@ -69,8 +84,8 @@ class FetchCardsCommand extends Command
         }
 
         // flush final
-        $em->flush();
-        $em->clear(Card::class);
+        $this->em->flush();
+        $this->em->clear();
 
         $progressBar->finish();
         $output->writeln('');
@@ -82,11 +97,11 @@ class FetchCardsCommand extends Command
 
         try {
             $cards = $this->pokemonCardsService->fetchCards();
-            $output->writeln('OK : ' . count($cards) . ' cartes récupérés');
+            $output->writeln('OK : ' . count($cards) . ' cartes récupérées');
 
-            $this->pushCards($this->em, $cards, $output);
+            $this->pushCards($cards, $output);
 
-            $output->writeln(messages: 'Cartes sauvegardés 👍');
+            $output->writeln('Cartes synchronisées 👍');
 
             return Command::SUCCESS;
 
