@@ -23,17 +23,39 @@ final class CardPageController extends AbstractController
 
         $wishlistCards = [];
         if ($user) {
-            $userCards = $wc->findAll();
+            $userCards = $wc->findBy(['user' => $user]);
             foreach ($userCards as $w) {
                 $wishlistCards[] = $w->getCard()->getId();
             }
         }
 
+        function formatNameForURL($name)
+        {
+            // Enlève les accents
+            $name = transliterator_transliterate('Any-Latin; Latin-ASCII', $name);
+
+            // Supprime les caractères spéciaux et remplace par espace
+            $cleaned = preg_replace('/[^a-zA-Z0-9 ]/', ' ', $name);
+
+            // Remplace les espaces par +
+            return trim(preg_replace('/\s+/', '+', $cleaned));
+        }
+
+        $cardNameURL = formatNameForURL($card->getName());
+        $cardNumber  = $card->getLocalId() . '%2F' . $card->getset()->getCardCount();
+
+        $cardmarketLink = "https://www.cardmarket.com/Pokemon/Products?idProduct=";
+        $ebayLink       = "";
+        $vintedLink     = "https://www.vinted.fr/catalog?search_text={$cardNameURL}+{$cardNumber}";
+
         return $this->render('card_page/index.html.twig', [
-            'card'  => $card,
-            'cards' => $cards,
-            'wishlistCards' => $wishlistCards,
-            'page' => "Carte"
+            'card'           => $card,
+            'cards'          => $cards,
+            'wishlistCards'  => $wishlistCards,
+            'page'           => "Carte",
+            'cardmarketLink' => $cardmarketLink,
+            'ebayLink'       => $ebayLink,
+            'vintedLink'     => $vintedLink,
         ]);
     }
 }

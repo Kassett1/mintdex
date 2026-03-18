@@ -61,6 +61,8 @@ class FetchSetsCommand extends Command
                     $set->setSymbol($s['symbol']);
                 }
 
+                $set->setCardCount($s['cardCount']['official']);
+
                 $em->persist($set);
             }
         }

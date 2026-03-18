@@ -37,6 +37,9 @@ class Set
     #[ORM\OneToMany(targetEntity: Card::class, mappedBy: 'set')]
     private Collection $cards;
 
+    #[ORM\Column(length: 255)]
+    private ?string $cardCount = null;
+
     public function __construct()
     {
         $this->cards = new ArrayCollection();
@@ -133,6 +136,18 @@ class Set
                 $card->setSet(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getCardCount(): ?string
+    {
+        return $this->cardCount;
+    }
+
+    public function setCardCount(string $cardCount): static
+    {
+        $this->cardCount = $cardCount;
 
         return $this;
     }

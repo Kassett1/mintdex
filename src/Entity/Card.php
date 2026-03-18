@@ -45,6 +45,9 @@ class Card
     #[ORM\OneToMany(targetEntity: WishlistCard::class, mappedBy: 'card')]
     private Collection $wishlistCards;
 
+    #[ORM\Column(length: 255)]
+    private ?string $cardmarketId = null;
+
     public function __construct()
     {
         $this->userCards = new ArrayCollection();
@@ -184,6 +187,18 @@ class Card
                 $wishlistCard->setCard(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getCardmarketId(): ?string
+    {
+        return $this->cardmarketId;
+    }
+
+    public function setCardmarketId(string $cardmarketId): static
+    {
+        $this->cardmarketId = $cardmarketId;
 
         return $this;
     }

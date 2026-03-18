@@ -27,6 +27,7 @@ final class SearchPageController extends AbstractController
 
         return $this->render('search_page/index.html.twig', [
             'cards' => $cards,
+            'page' => "Recherche"
         ]);
     }
 }
