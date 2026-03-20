@@ -39,8 +39,7 @@ class EnrichCardsCommand extends Command
         // On récupère uniquement celles qui ont besoin d’un enrichissement
         $cards = $this->em->getRepository(Card::class)
             ->createQueryBuilder('c')
-            // c.cardmarketId IS NULL OR c.rarity IS NULL OR c.illustrator IS NULL
-            ->where('c.cardmarketId IS NULL')
+            ->where('c.cardmarketId IS NULL OR c.illustrator IS NULL')
             ->getQuery()
             ->getResult();
 

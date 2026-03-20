@@ -13,14 +13,14 @@ class CardEnricherService
             $card->setCardmarketId($data['pricing']['cardmarket']['idProduct']);
         }
 
+        // Illustrateur
+        if (!$card->getIllustrator() && !empty($data['illustrator'])) {
+            $card->setIllustrator($data['illustrator']);
+        }
+
         // // Rareté
         // if (!$card->getRarity() && !empty($data['rarity'])) {
         //     $card->setRarity($data['rarity']);
-        // }
-
-        // // Illustrateur
-        // if (!$card->getIllustrator() && !empty($data['illustrator'])) {
-        //     $card->setIllustrator($data['illustrator']);
         // }
     }
 }
