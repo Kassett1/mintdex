@@ -15,70 +15,49 @@
 			</div>
 
 			{% if app.user %}
+				<div class="flex gap-5">
+					<button class="w-6 h-6 rounded flex items-center justify-center transition {{ card.id in wishlistCards ? 'bg-pink-500/30' : 'bg-indigo-900/30' }} backdrop-blur-sm text-white shadow-md" data-action="click->wishlist#toggle" data-wishlist-card-id="{{ card.id }}" data-wishlist-initial-value="{{ card.id in wishlistCards ? 'true' : 'false' }}">
+						<svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="{{ card.id in wishlistCards ? 'currentColor' : 'none' }}" class="w-5 h-5">
+							<path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z"/>
+						</svg>
+					</button>
 
-			<button class="w-6 h-6 rounded flex items-center justify-center transition {{ card.id in wishlistCards ? 'bg-pink-500/30' : 'bg-indigo-900/30' }} backdrop-blur-sm text-white" data-action="click->wishlist#toggle" data-wishlist-card-id="{{ card.id }}" data-wishlist-initial-value="{{ card.id in wishlistCards ? 'true' : 'false' }}">
-				<svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="{{ card.id in wishlistCards ? 'currentColor' : 'none' }}" class="w-5 h-5">
-					<path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z"/>
-				</svg>
-			</button>
+					<!-- Bouton -->
+					<button type="button" data-action="click->add-card#toggle" class="w-6 h-6 rounded flex items-center justify-center transition backdrop-blur-sm text-white shadow-md bg-orange-500/30" data-add-card-target="button">
+						<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewbox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-full h-full">
+							<path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"/>
+						</svg>
+					</button>
 
-			<!-- Formulaire d'ajout -->
-				<form data-add-card-target="form" data-action="submit->add-card#sendData" class="flex flex-wrap justify-between w-full" data-hidden="false" data-add-to-list="true">
-					<div class="flex flex-col gap-1 justify-center w-[48%]">
-						<input type="hidden" name="cardId" value="{{ card.id }}">
+				</div>
 
-						<label class="font-inter text-xs mx-2">État</label>
-						<select name="cardCondition" class="font-inter text-sm rounded-xl border border-violet-300 px-2 py-1">
-							<option value="mt">Mint</option>
-							<option value="nm" selected>Near Mint</option>
-							<option value="ex">Excellent</option>
-							<option value="gd">Good</option>
-							<option value="lp">Light Played</option>
-							<option value="pl">Played</option>
-							<option value="po">Poor</option>
-						</select>
-					</div>
+				<!-- Popup -->
+				<form data-add-card-target="form" data-action="submit->add-card#sendData" class="hidden fixed bottom-0 left-1/2 -translate-x-1/2 w-[calc(100%-20px)]
+																																																	               bg-indigo-950/40 backdrop-blur-lg rounded-t-xl shadow-md p-4
+																																																	               translate-y-full transition-transform duration-300 ease-out z-50">
+					<input type="hidden" name="cardId" value="{{ card.id }}">
 
-					<div class="flex flex-col gap-1 justify-center w-[48%]">
-						<input type="hidden" name="cardId" value="{{ card.id }}">
+					<label class="block text-sm font-inter mb-1">État :</label>
+					<select name="cardCondition" class="text-sm font-inter w-full mb-3 p-1 rounded">
+						<option value="mt">Mint</option>
+						<option value="nm" selected>Near Mint</option>
+						<option value="ex">Excellent</option>
+						<option value="gd">Good</option>
+						<option value="lp">Light Played</option>
+						<option value="pl">Played</option>
+						<option value="po">Poor</option>
+					</select>
 
-						<label class="font-inter text-xs mx-2">Langue</label>
-						<select name="cardCondition" class="font-inter text-sm rounded-xl border border-violet-300 px-2 py-1">
-							<option value="mt">Mint</option>
-							<option value="nm" selected>Near Mint</option>
-							<option value="ex">Excellent</option>
-							<option value="gd">Good</option>
-							<option value="lp">Light Played</option>
-							<option value="pl">Played</option>
-							<option value="po">Poor</option>
-						</select>
-					</div>
-
-					<div class="flex flex-col gap-1 justify-center w-[48%]">
-						<input type="hidden" name="cardId" value="{{ card.id }}">
-
-						<label class="font-inter text-xs mx-2">Version</label>
-						<select name="cardCondition" class="font-inter text-sm rounded-xl border border-violet-300 px-2 py-1">
-							<option value="mt">Mint</option>
-							<option value="nm" selected>Near Mint</option>
-							<option value="ex">Excellent</option>
-							<option value="gd">Good</option>
-							<option value="lp">Light Played</option>
-							<option value="pl">Played</option>
-							<option value="po">Poor</option>
-						</select>
-					</div>
-
-					<button type="submit" class="w-full mt-2 text-sm bg-orange-300 hover:bg-orange-400 rounded px-2 py-1 transition">
+					<button type="submit" class="w-full bg-orange-300 hover:bg-orange-400 text-sm rounded py-2 transition">
 						Ajouter
 					</button>
 				</form>
 			{% endif %}
 
-			<div>
-				{# <a>Voir sur eBay</a> #}
-				<a href="{{cardmarketLink}}">Voir sur Cardmarket</a>
-				<a href="{{vintedLink}}">Voir sur Vinted</a>
+			<div class="flex flex-col gap-2 items-center w-full">
+				<a class="bg-violet-200 backdrop-blur-lg rounded-xl border border-violet-200 shadow-sm px-2 py-1 text-violet-900 font-sora text-sm w-full text-center">Voir sur eBay (non disponible actuellement)</a>
+				<a class="bg-violet-200 backdrop-blur-lg rounded-xl border border-violet-200 shadow-sm px-2 py-1 text-violet-900 font-sora text-sm w-full text-center" href="{{cardmarketLink}}">Voir sur Cardmarket</a>
+				<a class="bg-violet-200 backdrop-blur-lg rounded-xl border border-violet-200 shadow-sm px-2 py-1 text-violet-900 font-sora text-sm w-full text-center" href="{{vintedLink}}">Voir sur Vinted</a>
 			</div>
 
 			<!-- Liste des cartes -->
@@ -101,7 +80,6 @@
 				{% endif %}
 			</ul>
 
-		</div>
-	</section>
-
+		</section>
+	</div>
 {% endblock %}
