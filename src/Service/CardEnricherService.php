@@ -18,9 +18,9 @@ class CardEnricherService
             $card->setIllustrator($data['illustrator']);
         }
 
-        // // Rareté
-        // if (!$card->getRarity() && !empty($data['rarity'])) {
-        //     $card->setRarity($data['rarity']);
-        // }
+        // Prix
+        if (!$card->getPrice() && !empty($data['pricing']['cardmarket']['avg30'])) {
+            $card->setPrice($data['pricing']['cardmarket']['avg30']);
+        }
     }
 }

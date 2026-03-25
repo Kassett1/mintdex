@@ -16,17 +16,14 @@ use Symfony\Component\Console\Output\OutputInterface;
 )]
 class FetchCardsCommand extends Command
 {
-    private PokemonCardsService $pokemonCardsService;
-    private EntityManagerInterface $em;
-
-    public function __construct(PokemonCardsService $pokemonCardsService, EntityManagerInterface $em)
-    {
+    public function __construct(
+        private PokemonCardsService $pokemonCardsService,
+        private EntityManagerInterface $em
+    ) {
         parent::__construct();
-        $this->pokemonCardsService = $pokemonCardsService;
-        $this->em                  = $em;
     }
 
-    private function pushCards(array $cards, OutputInterface $output)
+    private function pushCards(array $cards, OutputInterface $output): void
     {
         $batchSize = 200;
         $i         = 0;
@@ -34,56 +31,77 @@ class FetchCardsCommand extends Command
         $progressBar = new ProgressBar($output, count($cards));
         $progressBar->start();
 
-        // 1. Charger toutes les cartes existantes en mémoire (OPTIMISATION)
-        $existingCards = $this->em->getRepository(Card::class)->findAll();
+        // On charge seulement les infos minimales utiles pour savoir si une carte existe déjà
+        $rows = $this->em->createQuery('
+            SELECT c.id, c.slug, c.localId
+            FROM App\Entity\Card c
+        ')->getArrayResult();
 
         $cardsMap = [];
-        foreach ($existingCards as $existing) {
-            $key            = $existing->getSlug() . '_' . $existing->getLocalId();
-            $cardsMap[$key] = $existing;
+        foreach ($rows as $row) {
+            $key            = $row['slug'] . '_' . $row['localId'];
+            $cardsMap[$key] = $row['id'];
         }
 
+        $cardRepository = $this->em->getRepository(Card::class);
+
         foreach ($cards as $c) {
+            try {
+                $set = $this->pokemonCardsService->detectSet($c);
 
-            $set = $this->pokemonCardsService->detectSet($c);
+                // Ignore les cartes sans set
+                if (! $set) {
+                    $progressBar->advance();
+                    continue;
+                }
 
-            // Ignore les cartes sans set
-            if (! $set) {
-                $progressBar->advance();
+                $slug    = $c['id'] ?? null;
+                $localId = $c['localId'] ?? null;
+
+                if (! $slug || ! $localId) {
+                    $progressBar->advance();
+                    continue;
+                }
+
+                // Clé unique logique
+                $key = $slug . '_' . $localId;
+
+                if (isset($cardsMap[$key])) {
+                    $card = $cardRepository->find($cardsMap[$key]);
+                } else {
+                    // CREATE
+                    $card = new Card();
+                    $this->em->persist($card);
+                }
+
+                $card->setName($c['name'] ?? '');
+                $card->setSlug($slug);
+                $card->setLocalId($localId);
+
+                if (! empty($c['image'])) {
+                    $card->setImage($c['image']);
+                }
+
+                $card->setSet($set);
+
+                $i++;
+
+                // Flush par batch
+                if (($i % $batchSize) === 0) {
+                    $this->em->flush();
+                    $this->em->clear();
+                    $cardRepository = $this->em->getRepository(Card::class);
+                }
+            } catch (\Throwable $e) {
+                $output->writeln(
+                    '<error>Erreur carte ' . ($c['id'] ?? 'unknown') . ' : ' . $e->getMessage() . '</error>'
+                );
                 continue;
             }
 
-            // Clé unique pour identifier une carte
-            $key = $c['id'] . '_' . $c['localId'];
-
-            // 2. Vérifie si la carte existe déjà
-            if (isset($cardsMap[$key])) {
-                $card = $cardsMap[$key]; // UPDATE
-            } else {
-                $card = new Card(); // CREATE
-                $this->em->persist($card);
-            }
-
-            // 3. Mise à jour des données (update OU create)
-            $card->setName($c['name']);
-            $card->setSlug($c['id']);
-            $card->setLocalId($c['localId']);
-            if (! empty($c['image'])) {
-                $card->setImage($c['image']);
-            }
-            $card->setSet($set);
-
-            // BATCH FLUSH pour éviter surcharge mémoire
-            if (($i % $batchSize) === 0) {
-                $this->em->flush();
-                $this->em->clear();
-            }
-
-            $i++;
             $progressBar->advance();
         }
 
-        // flush final
         $this->em->flush();
         $this->em->clear();
 
@@ -104,7 +122,6 @@ class FetchCardsCommand extends Command
             $output->writeln('Cartes synchronisées 👍');
 
             return Command::SUCCESS;
-
         } catch (\Throwable $e) {
             $output->writeln('<error>Erreur :</error> ' . $e->getMessage());
             return Command::FAILURE;

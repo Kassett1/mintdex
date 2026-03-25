@@ -17,64 +17,61 @@ use Symfony\Component\Console\Output\OutputInterface;
 )]
 class EnrichCardsCommand extends Command
 {
-    private PokemonCardsService $pokemonCardsService;
-    private EntityManagerInterface $em;
-    private CardEnricherService $enricher;
-
     public function __construct(
-        PokemonCardsService $pokemonCardsService,
-        EntityManagerInterface $em,
-        CardEnricherService $enricher
+        private PokemonCardsService $pokemonCardsService,
+        private EntityManagerInterface $em,
+        private CardEnricherService $enricher
     ) {
         parent::__construct();
-        $this->pokemonCardsService = $pokemonCardsService;
-        $this->em                  = $em;
-        $this->enricher            = $enricher;
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $output->writeln('Récupération des cartes à enrichir...');
 
-        // On récupère uniquement celles qui ont besoin d’un enrichissement
-        $cards = $this->em->getRepository(Card::class)
+        $query = $this->em->getRepository(Card::class)
             ->createQueryBuilder('c')
-            ->where('c.cardmarketId IS NULL OR c.illustrator IS NULL')
+            ->where('c.cardmarketId IS NULL OR c.illustrator IS NULL OR c.price IS NULL')
+            ->getQuery();
+
+        $cards = $query->toIterable();
+
+        $total = (int) $this->em->getRepository(Card::class)
+            ->createQueryBuilder('c')
+            ->select('COUNT(c.id)')
+            ->where('c.cardmarketId IS NULL OR c.illustrator IS NULL OR c.price IS NULL')
             ->getQuery()
-            ->getResult();
+            ->getSingleScalarResult();
 
-        $output->writeln(count($cards) . ' cartes à enrichir');
+        $output->writeln($total . ' cartes à enrichir');
 
-        $progressBar = new ProgressBar($output, count($cards));
+        $progressBar = new ProgressBar($output, $total);
         $progressBar->start();
 
         $batchSize = 50;
-        $i         = 0;
+        $i = 0;
 
         foreach ($cards as $card) {
             try {
                 $data = $this->pokemonCardsService->fetchCardById($card->getSlug());
-                // Enrichissement centralisé
                 $this->enricher->enrich($card, $data);
-
             } catch (\Throwable $e) {
-                // On skip si erreur API
+                $progressBar->advance();
                 continue;
             }
 
-            // batch flush
+            $i++;
+
             if (($i % $batchSize) === 0) {
                 $this->em->flush();
+                $this->em->clear();
             }
 
-            // évite le rate limit
-            usleep(100000); // 0.1 sec
-
-            $i++;
             $progressBar->advance();
         }
 
         $this->em->flush();
+        $this->em->clear();
 
         $progressBar->finish();
         $output->writeln("\nEnrichissement terminé 👍");
