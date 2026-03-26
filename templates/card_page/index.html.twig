@@ -34,8 +34,8 @@
 							{{ card.getPrice() }}€
 						</button>
 
-						<button class="flex gap-1 rounded bg-violet-950/40 backdrop-blur-sm text-white shadow-md px-2 py-1">
-							<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewbox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-4">
+						<button class="flex gap-1 rounded bg-violet-950/40 backdrop-blur-sm text-white shadow-md px-2 py-1 justify-center items-center">
+							<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewbox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-3">
 								<path stroke-linecap="round" stroke-linejoin="round" d="M9.53 16.122a3 3 0 0 0-5.78 1.128 2.25 2.25 0 0 1-2.4 2.245 4.5 4.5 0 0 0 8.4-2.245c0-.399-.078-.78-.22-1.128Zm0 0a15.998 15.998 0 0 0 3.388-1.62m-5.043-.025a15.994 15.994 0 0 1 1.622-3.395m3.42 3.42a15.995 15.995 0 0 0 4.764-4.648l3.876-5.814a1.151 1.151 0 0 0-1.597-1.597L14.146 6.32a15.996 15.996 0 0 0-4.649 4.763m3.42 3.42a6.776 6.776 0 0 0-3.42-3.42"/>
 							</svg>
 							<p class="text-xs font-inter">{{ card.getIllustrator() }}</p>
@@ -44,75 +44,91 @@
 				</div>
 
 				<!-- Popup -->
-				<form data-add-card-target="form" data-action="submit->add-card#sendData" class="hidden fixed bottom-0 left-1/2 -translate-x-1/2 w-[calc(100%-20px)] bg-indigo-950/40 backdrop-blur-lg rounded-t-xl shadow-md p-4 translate-y-full transition-transform duration-300 ease-out z-50">
+				<form data-add-card-target="form" data-action="submit->add-card#sendData" class="hidden fixed bottom-0 left-1/2 -translate-x-1/2 w-[calc(100%-20px)]
+						             bg-white backdrop-blur-lg rounded-t-xl shadow-md p-4
+						             translate-y-full transition-transform duration-300 ease-out z-50
+						             flex-wrap gap-3">
 
 					<input
 					type="hidden" name="cardId" value="{{ card.id }}">
 
 					<!-- État -->
-					<label class="block text-sm font-inter mb-1">
-						État
-						<span class="text-red-400">*</span>
-					</label>
-					<select name="cardCondition" required class="text-sm font-inter w-full mb-3 p-1 rounded">
-						<option value="mt">Mint</option>
-						<option value="nm" selected>Near Mint</option>
-						<option value="ex">Excellent</option>
-						<option value="gd">Good</option>
-						<option value="lp">Light Played</option>
-						<option value="pl">Played</option>
-						<option value="po">Poor</option>
-					</select>
+					<div class="w-[calc(50%-6px)]">
+						<label class="block text-xs font-inter mb-1 mx-1 text-violet-900">
+							État
+							<span class="text-red-500">*</span>
+						</label>
+						<select name="cardCondition" required class="text-sm font-inter w-full px-2 py-1 rounded-xl border border-violet-300">
+							<option value="mt">Mint</option>
+							<option value="nm" selected>Near Mint</option>
+							<option value="ex">Excellent</option>
+							<option value="gd">Good</option>
+							<option value="lp">Light Played</option>
+							<option value="pl">Played</option>
+							<option value="po">Poor</option>
+						</select>
+					</div>
 
 					<!-- Langue -->
-					<label class="block text-sm font-inter mb-1">
-						Langue
-						<span class="text-red-400">*</span>
-					</label>
-					<select name="language" required class="text-sm font-inter w-full mb-3 p-1 rounded">
-						<option value="fr">🇫🇷 Français</option>
-						<option value="en">🇬🇧 Anglais</option>
-						<option value="de">🇩🇪 Allemand</option>
-						<option value="es">🇪🇸 Espagnol</option>
-						<option value="it">🇮🇹 Italien</option>
-						<option value="pt">🇵🇹 Portugais</option>
-					</select>
+					<div class="w-[calc(50%-6px)]">
+						<label class="block text-xs font-inter mb-1 mx-1 text-violet-900">
+							Langue
+							<span class="text-red-500">*</span>
+						</label>
+						<select name="language" required class="text-sm font-inter w-full px-2 py-1 rounded-xl border border-violet-300">
+							<option value="fr">🇫🇷 Français</option>
+							<option value="en">🇬🇧 Anglais</option>
+							<option value="de">🇩🇪 Allemand</option>
+							<option value="es">🇪🇸 Espagnol</option>
+							<option value="it">🇮🇹 Italien</option>
+							<option value="pt">🇵🇹 Portugais</option>
+						</select>
+					</div>
 
 					<!-- Version -->
-					<label class="block text-sm font-inter mb-1">
-						Version
-						<span class="text-red-400">*</span>
-					</label>
-					<select name="version" required class="text-sm font-inter w-full mb-3 p-1 rounded">
-						<option value="normal">Normale</option>
-						<option value="reverse">Reverse</option>
-						<option value="holo">Holo</option>
-						<option value="first">1ère édition</option>
-					</select>
+					<div class="w-[calc(50%-6px)]">
+						<label class="block text-xs font-inter mb-1 mx-1 text-violet-900">
+							Version
+							<span class="text-red-500">*</span>
+						</label>
+						<select name="version" required class="text-sm font-inter w-full px-2 py-1 rounded-xl border border-violet-300">
+							<option value="normal">Normale</option>
+							<option value="reverse">Reverse</option>
+							<option value="holo">Holo</option>
+							<option value="first">1ère édition</option>
+						</select>
+					</div>
 
-					<!-- Estimation (optionnel) -->
-					<label class="block text-sm font-inter mb-1">
-						Estimation
-					</label>
-					<input type="text" id="price" name="price" placeholder="{{ card.getPrice() }}" class="text-sm font-inter w-full mb-3 p-1 rounded"/>
+					<!-- Estimation -->
+					<div class="w-[calc(50%-6px)]">
+						<label class="block text-xs font-inter mb-1 mx-1 text-violet-900">
+							Estimation
+						</label>
+						<input type="text" name="price" placeholder="{{ card.getPrice() }}" class="text-sm font-inter w-full px-2 py-1 rounded-xl border border-violet-300"/>
+					</div>
 
-					<button type="submit" class="w-full bg-orange-300 hover:bg-orange-400 text-sm rounded py-2 transition">
-						Ajouter
-					</button>
+					<!-- Bouton -->
+					<div class="w-full flex justify-center mt-2">
+						<button type="submit" class="bg-violet-200 rounded-xl border border-violet-900 shadow-sm px-4 py-2 text-violet-900 font-sora text-sm">
+							Ajouter
+						</button>
+					</div>
+
 				</form>
+
 			{% endif %}
 
-			<div class="flex flex-col gap-2 items-center w-full bg-white shadow-sm rounded-xl p-2">
-				<a class="bg-violet-200 backdrop-blur-lg rounded-xl border border-violet-200 shadow-sm px-2 py-1 text-violet-900 font-sora text-sm w-full text-center">Voir sur eBay (non disponible)</a>
-				<a class="bg-violet-200 backdrop-blur-lg rounded-xl border border-violet-200 shadow-sm px-2 py-1 text-violet-900 font-sora text-sm w-full text-center" href="{{cardmarketLink}}">Voir sur Cardmarket</a>
-				<a class="bg-violet-200 backdrop-blur-lg rounded-xl border border-violet-200 shadow-sm px-2 py-1 text-violet-900 font-sora text-sm w-full text-center" href="{{vintedLink}}">Voir sur Vinted</a>
+			<div class="flex flex-col gap-2 items-center w-full">
+				<a class="bg-violet-200 rounded-xl border border-violet-200 shadow-sm px-2 py-1 text-violet-900 font-sora text-sm w-full text-center">Voir sur eBay (non disponible)</a>
+				<a class="bg-violet-200 rounded-xl border border-violet-200 shadow-sm px-2 py-1 text-violet-900 font-sora text-sm w-full text-center" href="{{cardmarketLink}}">Voir sur Cardmarket</a>
+				<a class="bg-violet-200 rounded-xl border border-violet-200 shadow-sm px-2 py-1 text-violet-900 font-sora text-sm w-full text-center" href="{{vintedLink}}">Voir sur Vinted</a>
 			</div>
 
 			<!-- Liste des cartes -->
 			<ul data-controller="remove-card" class="w-full p-2 flex flex-col gap-2" data-add-card-target="cardList">
 				{% if cards %}
 					{% for card in cards %}
-						<li class="flex items-center justify-between w-full rounded-xl px-3 py-1 bg-white shadow-sm">
+						<li class="flex items-center justify-between w-full rounded-xl px-3 py-1 bg-violet-100 shadow-sm">
 							<div>
 								<p class="font-medium">{{ card.getCard().getName() }}</p>
 								<p class="text-sm text-gray-600">{{ card.getCardCondition() }}</p>

@@ -6,13 +6,24 @@ export default class extends Controller {
         updateButton: { type: Boolean, default: true },
     };
 
+    connect() {
+        this.handleClickOutside = this.handleClickOutside.bind(this);
+        document.addEventListener("click", this.handleClickOutside);
+    }
+
+    disconnect() {
+        document.removeEventListener("click", this.handleClickOutside);
+    }
+
     toggle() {
         const form = this.formTarget;
 
         if (form.classList.contains("hidden")) {
             form.classList.remove("hidden");
             form.classList.remove("translate-y-full");
+            form.classList.add("flex");
         } else {
+            form.classList.remove("flex");
             form.classList.add("hidden");
             form.classList.add("translate-y-full");
         }
@@ -45,7 +56,10 @@ export default class extends Controller {
                 if (!data.success) return;
 
                 if (this.updateButtonValue) {
-                    this.buttonTarget.classList.remove("bg-orange-500/30", "bg-orange-500/50");
+                    this.buttonTarget.classList.remove(
+                        "bg-orange-500/30",
+                        "bg-orange-500/50",
+                    );
                     this.buttonTarget.classList.add("bg-green-500/30");
 
                     this.buttonTarget.innerHTML = `
@@ -61,6 +75,7 @@ export default class extends Controller {
                     this.addCard(data.card);
                 }
 
+                form.classList.remove("flex");
                 form.classList.add("hidden");
                 form.classList.add("translate-y-full");
             })
@@ -90,7 +105,8 @@ export default class extends Controller {
 
     addCard(card) {
         const li = document.createElement("li");
-        li.className = "flex items-center justify-between bg-gray-100 w-full rounded-xl px-3 py-1 shadow-sm";
+        li.className =
+            "flex items-center justify-between bg-violet-100 w-full rounded-xl px-3 py-1 shadow-sm";
 
         li.innerHTML = `
             <div>
@@ -112,5 +128,23 @@ export default class extends Controller {
         `;
 
         this.cardListTarget.appendChild(li);
+    }
+
+    handleClickOutside(event) {
+        const form = this.formTarget;
+
+        // Si le form est caché → on fait rien
+        if (form.classList.contains("hidden")) return;
+
+        // Si le click est DANS le form → on ignore
+        if (form.contains(event.target)) return;
+
+        // Si le click est sur le bouton → on ignore
+        if (this.buttonTarget.contains(event.target)) return;
+
+        // Sinon → on ferme
+        form.classList.remove("flex");
+        form.classList.add("hidden");
+        form.classList.add("translate-y-full");
     }
 }

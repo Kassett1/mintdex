@@ -4,7 +4,7 @@
 {% endblock %}
 
 {% block body %}
-	<div data-controller="add-card wishlist" class="mx-5">
+	<div data-controller="wishlist" class="mx-5">
 		<img src="{{set.logo}}.webp" alt="{{set.name}}" class="mt-10 w-full h-auto px-10">
 
 		<ul class="grid grid-cols-3 gap-2 my-10">
@@ -29,7 +29,7 @@
 
 								<!-- Bouton -->
 								<button type="button" data-action="click->add-card#toggle" class="w-6 h-6 rounded flex items-center justify-center transition backdrop-blur-sm text-white shadow-md
-									               {{ isOwned ? 'bg-green-500/30' : 'bg-orange-500/30' }}" data-add-card-target="button">
+																		               {{ isOwned ? 'bg-green-500/30' : 'bg-orange-500/30' }}" data-add-card-target="button">
 									<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewbox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-full h-full">
 
 										{% if isOwned %}
@@ -43,24 +43,75 @@
 
 								<!-- Popup -->
 								<form data-add-card-target="form" data-action="submit->add-card#sendData" class="hidden fixed bottom-0 left-1/2 -translate-x-1/2 w-[calc(100%-20px)]
-										               bg-indigo-950/40 backdrop-blur-lg rounded-t-xl shadow-md p-4
-										               translate-y-full transition-transform duration-300 ease-out z-50">
-									<input type="hidden" name="cardId" value="{{ card.id }}">
+																             bg-white backdrop-blur-lg rounded-t-xl shadow-md p-4
+																             translate-y-full transition-transform duration-300 ease-out z-50
+																             flex-wrap gap-3">
 
-									<label class="block text-sm font-inter mb-1">État :</label>
-									<select name="cardCondition" class="text-sm font-inter w-full mb-3 p-1 rounded">
-										<option value="mt">Mint</option>
-										<option value="nm" selected>Near Mint</option>
-										<option value="ex">Excellent</option>
-										<option value="gd">Good</option>
-										<option value="lp">Light Played</option>
-										<option value="pl">Played</option>
-										<option value="po">Poor</option>
-									</select>
+									<input
+									type="hidden" name="cardId" value="{{ card.id }}">
 
-									<button type="submit" class="w-full bg-orange-300 hover:bg-orange-400 text-sm rounded py-2 transition">
-										Ajouter
-									</button>
+									<!-- État -->
+									<div class="w-[calc(50%-6px)]">
+										<label class="block text-xs font-inter mb-1 mx-1 text-violet-900">
+											État
+											<span class="text-red-500">*</span>
+										</label>
+										<select name="cardCondition" required class="text-sm font-inter w-full px-2 py-1 rounded-xl border border-violet-300">
+											<option value="mt">Mint</option>
+											<option value="nm" selected>Near Mint</option>
+											<option value="ex">Excellent</option>
+											<option value="gd">Good</option>
+											<option value="lp">Light Played</option>
+											<option value="pl">Played</option>
+											<option value="po">Poor</option>
+										</select>
+									</div>
+
+									<!-- Langue -->
+									<div class="w-[calc(50%-6px)]">
+										<label class="block text-xs font-inter mb-1 mx-1 text-violet-900">
+											Langue
+											<span class="text-red-500">*</span>
+										</label>
+										<select name="language" required class="text-sm font-inter w-full px-2 py-1 rounded-xl border border-violet-300">
+											<option value="fr">🇫🇷 Français</option>
+											<option value="en">🇬🇧 Anglais</option>
+											<option value="de">🇩🇪 Allemand</option>
+											<option value="es">🇪🇸 Espagnol</option>
+											<option value="it">🇮🇹 Italien</option>
+											<option value="pt">🇵🇹 Portugais</option>
+										</select>
+									</div>
+
+									<!-- Version -->
+									<div class="w-[calc(50%-6px)]">
+										<label class="block text-xs font-inter mb-1 mx-1 text-violet-900">
+											Version
+											<span class="text-red-500">*</span>
+										</label>
+										<select name="version" required class="text-sm font-inter w-full px-2 py-1 rounded-xl border border-violet-300">
+											<option value="normal">Normale</option>
+											<option value="reverse">Reverse</option>
+											<option value="holo">Holo</option>
+											<option value="first">1ère édition</option>
+										</select>
+									</div>
+
+									<!-- Estimation -->
+									<div class="w-[calc(50%-6px)]">
+										<label class="block text-xs font-inter mb-1 mx-1 text-violet-900">
+											Estimation
+										</label>
+										<input type="text" name="price" placeholder="{{ card.getPrice() }}" class="text-sm font-inter w-full px-2 py-1 rounded-xl border border-violet-300"/>
+									</div>
+
+									<!-- Bouton -->
+									<div class="w-full flex justify-center mt-2">
+										<button type="submit" class="bg-violet-200 rounded-xl border border-violet-900 shadow-sm px-4 py-2 text-violet-900 font-sora text-sm">
+											Ajouter
+										</button>
+									</div>
+
 								</form>
 							</div>
 						</div>
