@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20260323103647 extends AbstractMigration
+final class Version20260401080859 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -20,12 +20,12 @@ final class Version20260323103647 extends AbstractMigration
     public function up(Schema $schema): void
     {
         // this up() migration is auto-generated, please modify it to your needs
-        $this->addSql('ALTER TABLE card ADD price NUMERIC(10, 2) DEFAULT NULL');
+        $this->addSql('ALTER TABLE user_card ADD language VARCHAR(255) NOT NULL, ADD version VARCHAR(255) NOT NULL, ADD estimated_price NUMERIC(10, 2) NOT NULL');
     }
 
     public function down(Schema $schema): void
     {
         // this down() migration is auto-generated, please modify it to your needs
-        $this->addSql('ALTER TABLE card DROP price');
+        $this->addSql('ALTER TABLE user_card DROP language, DROP version, DROP estimated_price');
     }
 }

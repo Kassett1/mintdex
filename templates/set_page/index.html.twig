@@ -56,7 +56,7 @@
 											État
 											<span class="text-red-500">*</span>
 										</label>
-										<select name="cardCondition" required class="text-sm font-inter w-full px-2 py-1 rounded-xl border border-violet-300">
+										<select name="cardCondition" required class="text-sm font-inter w-full px-2 py-1 rounded-xl border border-violet-300 focus:outline-none focus:ring-2 focus:ring-violet-400 focus:border-violet-400">
 											<option value="mt">Mint</option>
 											<option value="nm" selected>Near Mint</option>
 											<option value="ex">Excellent</option>
@@ -73,7 +73,7 @@
 											Langue
 											<span class="text-red-500">*</span>
 										</label>
-										<select name="language" required class="text-sm font-inter w-full px-2 py-1 rounded-xl border border-violet-300">
+										<select name="language" required class="text-sm font-inter w-full px-2 py-1 rounded-xl border border-violet-300 focus:outline-none focus:ring-2 focus:ring-violet-400 focus:border-violet-400">
 											<option value="fr">🇫🇷 Français</option>
 											<option value="en">🇬🇧 Anglais</option>
 											<option value="de">🇩🇪 Allemand</option>
@@ -89,7 +89,7 @@
 											Version
 											<span class="text-red-500">*</span>
 										</label>
-										<select name="version" required class="text-sm font-inter w-full px-2 py-1 rounded-xl border border-violet-300">
+										<select name="version" required class="text-sm font-inter w-full px-2 py-1 rounded-xl border border-violet-300 focus:outline-none focus:ring-2 focus:ring-violet-400 focus:border-violet-400">
 											<option value="normal">Normale</option>
 											<option value="reverse">Reverse</option>
 											<option value="holo">Holo</option>
@@ -102,7 +102,7 @@
 										<label class="block text-xs font-inter mb-1 mx-1 text-violet-900">
 											Estimation
 										</label>
-										<input type="text" name="price" placeholder="{{ card.getPrice() }}" class="text-sm font-inter w-full px-2 py-1 rounded-xl border border-violet-300"/>
+										<input type="text" name="price" value="{{ card.getPrice() }}" class="text-sm font-inter w-full px-2 py-1 rounded-xl border border-violet-300 focus:outline-none focus:ring-2 focus:ring-violet-400 focus:border-violet-400"/>
 									</div>
 
 									<!-- Bouton -->

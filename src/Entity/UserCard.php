@@ -2,6 +2,7 @@
 namespace App\Entity;
 
 use App\Repository\UserCardRepository;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: UserCardRepository::class)]
@@ -23,6 +24,15 @@ class UserCard
 
     #[ORM\Column]
     private ?\DateTimeImmutable $createdAt = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $language = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $version = null;
+
+    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
+    private ?string $estimatedPrice = null;
 
     public function __construct()
     {
@@ -78,6 +88,42 @@ class UserCard
     public function setCreatedAt(\DateTimeImmutable $createdAt): static
     {
         $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    public function getLanguage(): ?string
+    {
+        return $this->language;
+    }
+
+    public function setLanguage(string $language): static
+    {
+        $this->language = $language;
+
+        return $this;
+    }
+
+    public function getVersion(): ?string
+    {
+        return $this->version;
+    }
+
+    public function setVersion(string $version): static
+    {
+        $this->version = $version;
+
+        return $this;
+    }
+
+    public function getEstimatedPrice(): ?string
+    {
+        return $this->estimatedPrice;
+    }
+
+    public function setEstimatedPrice(string $estimatedPrice): static
+    {
+        $this->estimatedPrice = $estimatedPrice;
 
         return $this;
     }

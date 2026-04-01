@@ -45,9 +45,9 @@
 
 				<!-- Popup -->
 				<form data-add-card-target="form" data-action="submit->add-card#sendData" class="hidden fixed bottom-0 left-1/2 -translate-x-1/2 w-[calc(100%-20px)]
-						             bg-white backdrop-blur-lg rounded-t-xl shadow-md p-4
-						             translate-y-full transition-transform duration-300 ease-out z-50
-						             flex-wrap gap-3">
+																		             bg-white backdrop-blur-lg rounded-t-xl shadow-md p-4
+																		             translate-y-full transition-transform duration-300 ease-out z-50
+																		             flex-wrap gap-3">
 
 					<input
 					type="hidden" name="cardId" value="{{ card.id }}">
@@ -58,7 +58,7 @@
 							État
 							<span class="text-red-500">*</span>
 						</label>
-						<select name="cardCondition" required class="text-sm font-inter w-full px-2 py-1 rounded-xl border border-violet-300">
+						<select name="cardCondition" required class="text-sm font-inter w-full px-2 py-1 rounded-xl border border-violet-300 focus:outline-none focus:ring-2 focus:ring-violet-400 focus:border-violet-400">
 							<option value="mt">Mint</option>
 							<option value="nm" selected>Near Mint</option>
 							<option value="ex">Excellent</option>
@@ -75,7 +75,7 @@
 							Langue
 							<span class="text-red-500">*</span>
 						</label>
-						<select name="language" required class="text-sm font-inter w-full px-2 py-1 rounded-xl border border-violet-300">
+						<select name="language" required class="text-sm font-inter w-full px-2 py-1 rounded-xl border border-violet-300 focus:outline-none focus:ring-2 focus:ring-violet-400 focus:border-violet-400">
 							<option value="fr">🇫🇷 Français</option>
 							<option value="en">🇬🇧 Anglais</option>
 							<option value="de">🇩🇪 Allemand</option>
@@ -91,11 +91,10 @@
 							Version
 							<span class="text-red-500">*</span>
 						</label>
-						<select name="version" required class="text-sm font-inter w-full px-2 py-1 rounded-xl border border-violet-300">
+						<select name="version" required class="text-sm font-inter w-full px-2 py-1 rounded-xl border border-violet-300 focus:outline-none focus:ring-2 focus:ring-violet-400 focus:border-violet-400">
 							<option value="normal">Normale</option>
 							<option value="reverse">Reverse</option>
 							<option value="holo">Holo</option>
-							<option value="first">1ère édition</option>
 						</select>
 					</div>
 
@@ -104,7 +103,7 @@
 						<label class="block text-xs font-inter mb-1 mx-1 text-violet-900">
 							Estimation
 						</label>
-						<input type="text" name="price" placeholder="{{ card.getPrice() }}" class="text-sm font-inter w-full px-2 py-1 rounded-xl border border-violet-300"/>
+						<input type="text" name="price" value="{{ card.getPrice() }}" class="text-sm font-inter w-full px-2 py-1 rounded-xl border border-violet-300 focus:outline-none focus:ring-2 focus:ring-violet-400 focus:border-violet-400"/>
 					</div>
 
 					<!-- Bouton -->
@@ -119,9 +118,17 @@
 			{% endif %}
 
 			<div class="flex flex-col gap-2 items-center w-full">
-				<a class="bg-violet-200 rounded-xl border border-violet-200 shadow-sm px-2 py-1 text-violet-900 font-sora text-sm w-full text-center">Voir sur eBay (non disponible)</a>
-				<a class="bg-violet-200 rounded-xl border border-violet-200 shadow-sm px-2 py-1 text-violet-900 font-sora text-sm w-full text-center" href="{{cardmarketLink}}">Voir sur Cardmarket</a>
-				<a class="bg-violet-200 rounded-xl border border-violet-200 shadow-sm px-2 py-1 text-violet-900 font-sora text-sm w-full text-center" href="{{vintedLink}}">Voir sur Vinted</a>
+				<a class="bg-violet-200 rounded-xl border border-violet-200 shadow-sm px-2 py-1 text-violet-900 font-sora text-sm w-full text-center">
+					Voir sur eBay (non disponible)
+				</a>
+
+				<a class="bg-violet-200 rounded-xl border border-violet-200 shadow-sm px-2 py-1 text-violet-900 font-sora text-sm w-full text-center" href="{{ cardmarketLink }}" target="_blank" rel="noopener noreferrer">
+					Voir sur Cardmarket
+				</a>
+
+				<a class="bg-violet-200 rounded-xl border border-violet-200 shadow-sm px-2 py-1 text-violet-900 font-sora text-sm w-full text-center" href="{{ vintedLink }}" target="_blank" rel="noopener noreferrer">
+					Voir sur Vinted
+				</a>
 			</div>
 
 			<!-- Liste des cartes -->
@@ -131,7 +138,12 @@
 						<li class="flex items-center justify-between w-full rounded-xl px-3 py-1 bg-violet-100 shadow-sm">
 							<div>
 								<p class="font-medium">{{ card.getCard().getName() }}</p>
-								<p class="text-sm text-gray-600">{{ card.getCardCondition() }}</p>
+								<div class="flex gap-3">
+									<p class="text-sm text-gray-600">{{ card.getCardCondition() }}</p>
+									<p class="text-sm text-gray-600">{{ card.getLanguage() }}</p>
+									<p class="text-sm text-gray-600">{{ card.getVersion() }}</p>
+									<p class="text-sm text-gray-600">{{ card.getEstimatedPrice() }}</p>
+								</div>
 							</div>
 							<button class="text-red-500 hover:text-red-700" data-action="click->remove-card#removeCard" data-card-id="{{ card.getId() }}">
 								<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewbox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">

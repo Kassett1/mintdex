@@ -39,6 +39,9 @@ final class AddCardController extends AbstractController
         $userCard->setUser($user);
         $userCard->setCard($card);
         $userCard->setCardCondition($data['condition']);
+        $userCard->setLanguage($data['language']);
+        $userCard->setVersion($data['version']);
+        $userCard->setEstimatedPrice($data['estimatedPrice']);
 
         // 4. persister en BDD
         $em->persist($userCard);
@@ -51,6 +54,9 @@ final class AddCardController extends AbstractController
                 'id'        => $userCard->getId(),
                 'name'      => $userCard->getCard()->getName(),
                 'condition' => $userCard->getCardCondition(),
+                'language' => $userCard->getLanguage(),
+                'version' => $userCard->getVersion(),
+                'estimatedPrice' => $userCard->getEstimatedPrice(),
             ],
         ]);
     }

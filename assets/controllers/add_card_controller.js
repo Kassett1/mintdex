@@ -23,6 +23,7 @@ export default class extends Controller {
             form.classList.remove("translate-y-full");
             form.classList.add("flex");
         } else {
+            form.reset();
             form.classList.remove("flex");
             form.classList.add("hidden");
             form.classList.add("translate-y-full");
@@ -47,6 +48,9 @@ export default class extends Controller {
             body: JSON.stringify({
                 cardId: formData.get("cardId"),
                 condition: formData.get("cardCondition"),
+                language: formData.get("language"),
+                version: formData.get("version"),
+                estimatedPrice: formData.get("price"),
             }),
         })
             .then((res) => res.json())
@@ -75,6 +79,7 @@ export default class extends Controller {
                     this.addCard(data.card);
                 }
 
+                form.reset();
                 form.classList.remove("flex");
                 form.classList.add("hidden");
                 form.classList.add("translate-y-full");
@@ -111,7 +116,12 @@ export default class extends Controller {
         li.innerHTML = `
             <div>
                 <p class="font-medium">${card.name}</p>
-                <p class="text-sm text-gray-600">${card.condition}</p>
+                <div class="flex gap-3">
+					<p class="text-sm text-gray-600">${card.condition}</p>
+					<p class="text-sm text-gray-600">${card.language}</p>
+					<p class="text-sm text-gray-600">${card.version}</p>
+					<p class="text-sm text-gray-600">${card.estimatedPrice}</p>
+				</div>
             </div>
 
             <button 
@@ -143,6 +153,7 @@ export default class extends Controller {
         if (this.buttonTarget.contains(event.target)) return;
 
         // Sinon → on ferme
+        form.reset();
         form.classList.remove("flex");
         form.classList.add("hidden");
         form.classList.add("translate-y-full");
