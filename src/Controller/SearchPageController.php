@@ -22,12 +22,14 @@ final class SearchPageController extends AbstractController
         $cards = $cr->createQueryBuilder('c')
                     ->where('LOWER(c.name) LIKE :q')
                     ->setParameter('q', '%' . mb_strtolower($query) . '%')
+                    ->orderBy('c.set', 'DESC')
                     ->getQuery()
                     ->getResult();
 
         return $this->render('search_page/index.html.twig', [
             'cards' => $cards,
-            'page' => "Recherche"
+            'page' => "Recherche",
+            'query' => $query,
         ]);
     }
 }
