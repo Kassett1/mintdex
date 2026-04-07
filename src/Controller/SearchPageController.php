@@ -12,23 +12,17 @@ final class SearchPageController extends AbstractController
     #[Route('/search', name: 'app_search_page')]
     public function index(Request $request, CardRepository $cr): Response
     {
-
         $query = trim($request->query->get('q', ''));
 
         if ($query === '') {
             return $this->redirectToRoute('app_home');
         }
 
-        $cards = $cr->createQueryBuilder('c')
-                    ->where('LOWER(c.name) LIKE :q')
-                    ->setParameter('q', '%' . mb_strtolower($query) . '%')
-                    ->orderBy('c.set', 'DESC')
-                    ->getQuery()
-                    ->getResult();
+        $cards = $cr->searchByNameOrIllustrator($query);
 
         return $this->render('search_page/index.html.twig', [
             'cards' => $cards,
-            'page' => "Recherche",
+            'page'  => "Recherche",
             'query' => $query,
         ]);
     }

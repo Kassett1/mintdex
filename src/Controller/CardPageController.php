@@ -58,4 +58,5 @@ final class CardPageController extends AbstractController
             'vintedLink'     => $vintedLink,
         ]);
     }
+
 }
