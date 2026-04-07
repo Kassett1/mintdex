@@ -18,7 +18,7 @@
 		{% endblock %}
 	</head>
 	<body class="bg-violet-50">
-		<nav class="sticky top-5 mx-5 z-10" data-controller="menu">
+		<nav class="sticky top-5 mx-5 md:mx-30 z-10" data-controller="menu">
 			<div class="flex items-center justify-between py-2 px-5
 													bg-violet-950/40 backdrop-blur-lg
 													rounded-xl shadow-md">
@@ -28,11 +28,11 @@
 				</a>
 
 				<div class="hidden md:flex space-x-6">
-					<a href="{{ path('app_register') }}">Register</a>
-					<a href="{{ path('app_login') }}">Login</a>
+					<a href="{{ path('app_register') }}" class="text-white font-sora text-base">Register</a>
+					<a href="{{ path('app_login') }}" class="text-white font-sora text-base">Login</a>
 				</div>
 
-				<h2 class="font-bricolage text-lg text-white">{{page}}</h2>
+				<h2 class="font-bricolage text-lg text-white md:hidden">{{page}}</h2>
 
 				<!-- Burger mobile -->
 				<button class="md:hidden nav-icon relative w-6 h-6" data-action="click->menu#toggle" aria-label="Menu" aria-expanded="false">
