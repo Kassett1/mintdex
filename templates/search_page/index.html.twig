@@ -5,10 +5,10 @@
 
 {% block body %}
 	<div
-		class="mx-5">
+		class="mx-5 md:mx-30">
 
 		<!-- Formulaire de recherche -->
-		<form action="{{ path('app_search_page') }}" method="get" class="mt-10 mx-5 flex justify-center gap-2">
+		<form action="{{ path('app_search_page') }}" method="get" class="mt-10 flex justify-center gap-2">
 			<input type="text" name="q" value="{{query}}" placeholder="Rechercher une carte…" required class="rounded-xl border border-violet-100 shadow-sm focus:outline-none focus:ring-2 focus:ring-violet-300 focus:border-violet-300 text-sm px-2 py-1 font-inter bg-white">
 			<button type="submit" class="bg-violet-200 backdrop-blur-lg rounded-xl border border-violet-200 shadow-sm px-2 py-1 text-violet-900 font-sora text-sm">
 				Rechercher
@@ -16,7 +16,7 @@
 		</form>
 
 		{% if cards is not empty %}
-			<ul class="grid grid-cols-3 gap-2 my-10">
+			<ul class="grid grid-cols-3 md:grid-cols-4 gap-2 md:gap-3 my-10">
 				{% for card in cards %}
 					<li>
 						<a href="{{ path('app_card_page', { slug: card.slug }) }}">

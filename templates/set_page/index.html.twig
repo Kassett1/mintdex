@@ -4,10 +4,10 @@
 {% endblock %}
 
 {% block body %}
-	<div data-controller="wishlist" class="mx-5">
-		<img src="{{set.logo}}.webp" alt="{{set.name}}" class="mt-10 w-full h-auto px-10">
+	<div data-controller="wishlist" class="mx-5 md:mx-30">
+		<img src="{{set.logo}}.webp" alt="{{set.name}}" class="mt-10 w-full h-auto px-10 md:px-20">
 
-		<ul class="grid grid-cols-3 gap-2 my-10">
+		<ul class="grid grid-cols-3 md:grid-cols-4 gap-2 my-10">
 			{% for card in cards %}
 				<li class="relative">
 					<a href="{{ path('app_card_page', { slug: card.slug }) }}">
@@ -45,7 +45,7 @@
 								<form data-add-card-target="form" data-action="submit->add-card#sendData" class="hidden fixed bottom-0 left-1/2 -translate-x-1/2 w-[calc(100%-20px)]
 																             bg-white backdrop-blur-lg rounded-t-xl shadow-md p-4
 																             translate-y-full transition-transform duration-300 ease-out z-50
-																             flex-wrap gap-3">
+																             flex-wrap gap-3 md:pb-40">
 
 									<input
 									type="hidden" name="cardId" value="{{ card.id }}">

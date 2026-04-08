@@ -4,7 +4,7 @@
 {% endblock %}
 
 {% block body %}
-	<form method="post" class="mt-10 mx-5">
+	<form method="post" class="mt-10 mx-5 md:mx-50">
 		{% if error %}
 			<div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
 		{% endif %}
