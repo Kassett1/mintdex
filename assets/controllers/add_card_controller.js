@@ -21,10 +21,10 @@ export default class extends Controller {
         if (form.classList.contains("hidden")) {
             form.classList.remove("hidden");
             form.classList.remove("translate-y-full");
-            form.classList.add("flex");
+            form.classList.add("grid");
         } else {
             form.reset();
-            form.classList.remove("flex");
+            form.classList.remove("grid");
             form.classList.add("hidden");
             form.classList.add("translate-y-full");
         }
@@ -80,7 +80,7 @@ export default class extends Controller {
                 }
 
                 form.reset();
-                form.classList.remove("flex");
+                form.classList.remove("grid");
                 form.classList.add("hidden");
                 form.classList.add("translate-y-full");
             })
@@ -154,7 +154,7 @@ export default class extends Controller {
 
         // Sinon → on ferme
         form.reset();
-        form.classList.remove("flex");
+        form.classList.remove("grid");
         form.classList.add("hidden");
         form.classList.add("translate-y-full");
     }

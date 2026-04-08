@@ -80,4 +80,5 @@
     --font-bricolage: "Bricolage", sans-serif;
     --font-sora: "Sora", sans-serif;
     --font-inter: "Inter", sans-serif;
+    --breakpoint-3xl: 112.5rem;
 }

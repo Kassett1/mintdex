@@ -5,9 +5,9 @@
 
 {% block body %}
 	<section
-		class="flex flex-col items-center gap-5 mt-10 mx-5 md:mx-30 md:flex-row md:flex-wrap" data-controller="add-card wishlist" data-add-card-update-button-value="false">
+		class="flex flex-col items-center gap-5 mt-10 mx-5 md:mx-30 lg:mx-50 xl:mx-70 2xl:mx-100 3xl:mx-150 md:flex-row md:flex-wrap 2xl:flex-col" data-controller="add-card wishlist" data-add-card-update-button-value="false">
 		<!-- Carte principale -->
-		<div class="text-center w-full md:w-[calc(50%-10px)]">
+		<div class="text-center w-full md:w-[calc(50%-10px)] 2xl:w-full">
 			<h2 class="font-bricolage text-lg mb-2">
 				{{ card.name }}
 				{{ card.localId }}/{{ card.getSet().cardCount }}
@@ -15,7 +15,7 @@
 			<img src="{{ card.image }}/low.webp" alt="{{ card.name }}" class="mx-auto w-48 md:w-60 h-auto">
 		</div>
 
-		<div class="flex flex-col gap-5 w-full md:w-[calc(50%-10px)]">
+		<div class="flex flex-col gap-5 w-full md:w-[calc(50%-10px)] 2xl:w-full">
 			{% if app.user %}
 				<div class="flex flex-col justify-center items-center gap-2">
 					<div class="flex gap-3 flex-wrap justify-center">
@@ -53,10 +53,10 @@
 				</div>
 
 				<!-- Popup -->
-				<form data-add-card-target="form" data-action="submit->add-card#sendData" class="hidden fixed bottom-0 left-1/2 -translate-x-1/2 w-[calc(100%-20px)] bg-white backdrop-blur-lg rounded-t-xl shadow-md p-4 translate-y-full transition-transform duration-300 ease-out z-50 flex-wrap gap-3 md:pb-40">
+				<form data-add-card-target="form" data-action="submit->add-card#sendData" class="hidden fixed bottom-0 inset-x-5 md:inset-x-30 lg:inset-x-50 xl:inset-x-70 2xl:inset-x-100 3xl:inset-x-150 bg-white backdrop-blur-lg rounded-t-xl shadow-md p-4 translate-y-full transition-transform duration-300 ease-out z-50 grid-cols-2 gap-3 md:pb-40">
 					<input type="hidden" name="cardId" value="{{ card.id }}">
 
-					<div class="w-[calc(50%-6px)]">
+					<div>
 						<label class="block text-xs font-inter mb-1 mx-1 text-violet-900">
 							État
 							<span class="text-red-500">*</span>
@@ -72,7 +72,7 @@
 						</select>
 					</div>
 
-					<div class="w-[calc(50%-6px)]">
+					<div>
 						<label class="block text-xs font-inter mb-1 mx-1 text-violet-900">
 							Langue
 							<span class="text-red-500">*</span>
@@ -87,7 +87,7 @@
 						</select>
 					</div>
 
-					<div class="w-[calc(50%-6px)]">
+					<div>
 						<label class="block text-xs font-inter mb-1 mx-1 text-violet-900">
 							Version
 							<span class="text-red-500">*</span>
@@ -99,14 +99,14 @@
 						</select>
 					</div>
 
-					<div class="w-[calc(50%-6px)]">
+					<div>
 						<label class="block text-xs font-inter mb-1 mx-1 text-violet-900">
 							Estimation
 						</label>
 						<input type="text" name="price" value="{{ card.getPrice() }}" class="text-sm font-inter w-full px-2 py-1 rounded-xl border border-violet-300 focus:outline-none focus:ring-2 focus:ring-violet-400 focus:border-violet-400"/>
 					</div>
 
-					<div class="w-full flex justify-center mt-2">
+					<div class="w-full flex justify-center mt-2 col-span-2">
 						<button type="submit" class="bg-violet-200 rounded-xl border border-violet-900 shadow-sm px-4 py-2 text-violet-900 font-sora text-sm">
 							Ajouter
 						</button>
@@ -114,7 +114,7 @@
 				</form>
 			{% endif %}
 
-			<div class="flex flex-col gap-2 items-center w-full">
+			<div class="flex flex-col gap-2 items-center w-full 2xl:w-100 2xl:mx-auto">
 				<a class="bg-violet-200 rounded-xl border border-violet-200 shadow-sm px-2 py-1 text-violet-900 font-sora text-sm w-full text-center">
 					Voir sur eBay (non disponible)
 				</a>
@@ -129,7 +129,7 @@
 			</div>
 		</div>
 
-		<ul data-controller="remove-card" class="w-full p-2 flex flex-col gap-2" data-add-card-target="cardList">
+		<ul data-controller="remove-card" class="w-full p-2 flex flex-col gap-2 lg:gap-5 lg:grid lg:grid-cols-2" data-add-card-target="cardList">
 			{% if cards %}
 				{% for card in cards %}
 					<li class="flex items-center justify-between w-full rounded-xl px-3 py-1 bg-violet-100 shadow-sm">
