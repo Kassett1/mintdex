@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Repository;
 
 use App\Entity\WishlistCard;
@@ -24,6 +23,18 @@ class WishlistCardRepository extends ServiceEntityRepository
             ->andWhere('c.set = :set')
             ->setParameter('user', $user)
             ->setParameter('set', $set)
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function findWishlistCardsByQuery($user, $query)
+    {
+        return $this->createQueryBuilder('wc')
+            ->join('wc.card', 'c')
+            ->where('wc.user = :user')
+            ->andWhere('(LOWER(c.name) LIKE :query OR LOWER(c.illustrator) LIKE :query)')
+            ->setParameter('user', $user)
+            ->setParameter('query', '%' . strtolower($query) . '%')
             ->getQuery()
             ->getResult();
     }

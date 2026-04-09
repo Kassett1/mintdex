@@ -17,18 +17,6 @@ class UserCardRepository extends ServiceEntityRepository
         parent::__construct($registry, UserCard::class);
     }
 
-    // public function countByUserAndCard(User $user, Card $card): int
-    // {
-    //     return (int) $this->createQueryBuilder('uc')
-    //         ->select('COUNT(uc.id)')
-    //         ->andWhere('uc.user = :user')
-    //         ->andWhere('uc.card = :card')
-    //         ->setParameter('user', $user)
-    //         ->setParameter('card', $card)
-    //         ->getQuery()
-    //         ->getSingleScalarResult();
-    // }
-
     public function findOwnedCardsBySet($user, $set)
     {
         return $this->createQueryBuilder('uc')
@@ -37,6 +25,18 @@ class UserCardRepository extends ServiceEntityRepository
             ->andWhere('c.set = :set')
             ->setParameter('user', $user)
             ->setParameter('set', $set)
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function findOwnedCardsByQuery($user, $query)
+    {
+        return $this->createQueryBuilder('uc')
+            ->join('uc.card', 'c')
+            ->where('uc.user = :user')
+            ->andWhere('(LOWER(c.name) LIKE :query OR LOWER(c.illustrator) LIKE :query)')
+            ->setParameter('user', $user)
+            ->setParameter('query', '%' . strtolower($query) . '%')
             ->getQuery()
             ->getResult();
     }
