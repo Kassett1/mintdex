@@ -8,10 +8,10 @@
 		class="flex flex-col items-center gap-5 mt-10 mx-5 md:mx-30 lg:mx-50 xl:mx-70 2xl:mx-100 3xl:mx-150 md:flex-row md:flex-wrap 2xl:flex-col" data-controller="add-card wishlist" data-add-card-update-button-value="false">
 		<!-- Carte principale -->
 		<div class="text-center w-full md:w-[calc(50%-10px)] 2xl:w-full">
-			<h2 class="font-bricolage text-lg mb-2">
+			<h1 class="font-bricolage text-lg mb-2">
 				{{ card.name }}
 				{{ card.localId }}/{{ card.getSet().cardCount }}
-			</h2>
+			</h1>
 			<img src="{{ card.image }}/low.webp" alt="{{ card.name }}" class="mx-auto w-48 md:w-60 h-auto">
 		</div>
 

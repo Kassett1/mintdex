@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello HomeController!
+{% endblock %}
+
+{% block body %}
+	<div class="mb-3 mt-10 text-xs font-inter text-center">
+		Vous êtes connecté en tant que
+		{{ app.user.userIdentifier }},
+		<a href="{{ logout_path() }}" class="text-violet-500">Déconnexion</a>
+	</div>
+
+
+{% endblock %}

@@ -583,8 +583,8 @@
   .px-5 {
     padding-inline: calc(var(--spacing) * 5);
   }
-  .px-10 {
-    padding-inline: calc(var(--spacing) * 10);
+  .px-20 {
+    padding-inline: calc(var(--spacing) * 20);
   }
   .py-1 {
     padding-block: calc(var(--spacing) * 1);
@@ -813,11 +813,6 @@
       flex-wrap: wrap;
     }
   }
-  .md\:gap-3 {
-    @media (width >= 48rem) {
-      gap: calc(var(--spacing) * 3);
-    }
-  }
   .md\:px-20 {
     @media (width >= 48rem) {
       padding-inline: calc(var(--spacing) * 20);
@@ -989,6 +984,11 @@
       margin-inline: calc(var(--spacing) * 100);
     }
   }
+  .\32 xl\:mx-150 {
+    @media (width >= 96rem) {
+      margin-inline: calc(var(--spacing) * 150);
+    }
+  }
   .\32 xl\:mx-auto {
     @media (width >= 96rem) {
       margin-inline: auto;
@@ -1042,6 +1042,11 @@
   .\33 xl\:mx-150 {
     @media (width >= 125rem) {
       margin-inline: calc(var(--spacing) * 150);
+    }
+  }
+  .\33 xl\:mx-200 {
+    @media (width >= 125rem) {
+      margin-inline: calc(var(--spacing) * 200);
     }
   }
   .\33 xl\:px-120 {

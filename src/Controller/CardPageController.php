@@ -44,7 +44,7 @@ final class CardPageController extends AbstractController
         $cardNameURL = formatNameForURL($card->getName());
         $cardNumber  = $card->getLocalId() . '%2F' . $card->getset()->getCardCount();
 
-        $cardmarketLink = "https://www.cardmarket.com/Pokemon/Products?idProduct={$card->getCardmarketId()}";
+        $cardmarketLink = "https://www.cardmarket.com/Pokemon/Products?idProduct={$card->getCardmarketId()}&language=2&minCondition=2";
         $ebayLink       = "";
         $vintedLink     = "https://www.vinted.fr/catalog?search_text={$cardNameURL}+{$cardNumber}";
 
@@ -56,6 +56,45 @@ final class CardPageController extends AbstractController
             'cardmarketLink' => $cardmarketLink,
             'ebayLink'       => $ebayLink,
             'vintedLink'     => $vintedLink,
+        ]);
+    }
+
+    #[Route('/wishlist', name: 'app_wishlist_page')]
+    public function wishlist(WishlistCardRepository $wc, UserCardRepository $ucr): Response
+    {
+        $user = $this->getUser();
+
+        $cards = [];
+
+        if ($user) {
+            $userCards = $wc->findBy(['user' => $user]);
+
+            foreach ($userCards as $w) {
+                $cards[] = $w->getCard();
+            }
+        }
+
+        $ownedCards = [];
+        if ($user) {
+            $userCards = $ucr->findBy(['user' => $user]);
+            foreach ($userCards as $uc) {
+                $ownedCards[] = $uc->getCard()->getId();
+            }
+        }
+
+        $wishlistCards = [];
+        if ($user) {
+            $userCards = $wc->findBy(['user' => $user]);
+            foreach ($userCards as $w) {
+                $wishlistCards[] = $w->getCard()->getId();
+            }
+        }
+
+        return $this->render('card_page/wishlist.html.twig', [
+            'cards' => $cards,
+            'page'  => "Wishlist",
+            'ownedCards'    => $ownedCards,
+            'wishlistCards' => $wishlistCards,
         ]);
     }
 

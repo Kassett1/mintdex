@@ -17,19 +17,30 @@
 			{{ encore_entry_script_tags('app') }}
 		{% endblock %}
 	</head>
+
 	<body class="bg-violet-50">
 		<nav class="sticky top-5 mx-5 md:mx-30 lg:mx-50 xl:mx-70 2xl:mx-100 3xl:mx-150 z-10" data-controller="menu">
-			<div class="flex items-center justify-between py-2 px-5
-													bg-violet-950/40 backdrop-blur-lg
-													rounded-xl shadow-md">
+			<div class="flex items-center justify-between py-2 px-5 bg-violet-950/40 backdrop-blur-lg rounded-xl shadow-md">
 
 				<a href="{{ path('app_home') }}" class="inline-block">
-					<img src="{{ asset('images/logo_mintdex.webp') }}" alt="Mintdex" class="w-8 h-8 md:w-12 md:h-12 lg:w-10 lg:h-10">
+					<img src="{{ asset('images/logo_mintdex.webp') }}" alt="Mintdex" class="size-8 md:size-12 lg:size-10">
 				</a>
 
-				<div class="hidden md:flex space-x-6">
-					<a href="{{ path('app_register') }}" class="text-white font-sora text-base">Register</a>
-					<a href="{{ path('app_login') }}" class="text-white font-sora text-base">Login</a>
+				<div class="hidden md:flex gap-6 items-center">
+					{% if app.user %}
+						<a href="{{ path('app_wishlist_page') }}" class="text-white font-sora text-base">Wishlist</a>
+						<a href="{{ path('app_settings') }}" class="inline-block">
+							<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewbox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6 md:size-10 lg:size-8 text-violet-50">
+								<path stroke-linecap="round" stroke-linejoin="round" d="M10.343 3.94c.09-.542.56-.94 1.11-.94h1.093c.55 0 1.02.398 1.11.94l.149.894c.07.424.384.764.78.93.398.164.855.142 1.205-.108l.737-.527a1.125 1.125 0 0 1 1.45.12l.773.774c.39.389.44 1.002.12 1.45l-.527.737c-.25.35-.272.806-.107 1.204.165.397.505.71.93.78l.893.15c.543.09.94.559.94 1.109v1.094c0 .55-.397 1.02-.94 1.11l-.894.149c-.424.07-.764.383-.929.78-.165.398-.143.854.107 1.204l.527.738c.32.447.269 1.06-.12 1.45l-.774.773a1.125 1.125 0 0 1-1.449.12l-.738-.527c-.35-.25-.806-.272-1.203-.107-.398.165-.71.505-.781.929l-.149.894c-.09.542-.56.94-1.11.94h-1.094c-.55 0-1.019-.398-1.11-.94l-.148-.894c-.071-.424-.384-.764-.781-.93-.398-.164-.854-.142-1.204.108l-.738.527c-.447.32-1.06.269-1.45-.12l-.773-.774a1.125 1.125 0 0 1-.12-1.45l.527-.737c.25-.35.272-.806.108-1.204-.165-.397-.506-.71-.93-.78l-.894-.15c-.542-.09-.94-.56-.94-1.109v-1.094c0-.55.398-1.02.94-1.11l.894-.149c.424-.07.765-.383.93-.78.165-.398.143-.854-.108-1.204l-.526-.738a1.125 1.125 0 0 1 .12-1.45l.773-.773a1.125 1.125 0 0 1 1.45-.12l.737.527c.35.25.807.272 1.204.107.397-.165.71-.505.78-.929l.15-.894Z"/>
+								<path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/>
+							</svg>
+						</a>
+					{% else %}
+						<div class="md:flex gap-3">
+							<a href="{{ path('app_register') }}" class="text-white font-sora text-base">Register</a>
+							<a href="{{ path('app_login') }}" class="text-white font-sora text-base">Login</a>
+						</div>
+					{% endif %}
 				</div>
 
 				<h2 class="font-bricolage text-lg text-white md:hidden">{{page}}</h2>
@@ -43,20 +54,23 @@
 				</button>
 			</div>
 
-			<div data-menu-target="menu" class="md:hidden absolute w-full px-3 py-2 mt-1
-					           bg-violet-950/40 backdrop-blur-lg
-					           rounded-xl shadow-md
-					           opacity-0 scale-95 -translate-y-2
-					           pointer-events-none
-					           transition-all duration-300 ease-out">
+			<div data-menu-target="menu" class="md:hidden absolute w-full px-3 py-2 mt-1 bg-violet-950/40 backdrop-blur-lg rounded-xl shadow-md opacity-0 scale-95 -translate-y-2 pointer-events-none transition-all duration-300 ease-out">
 
-				<div class="flex flex-col gap-2">
-					<a href="{{ path('app_register') }}" class="text-white font-sora text-base">
-						Register
-					</a>
-					<a href="{{ path('app_login') }}" class="text-white font-sora text-base ">
-						Login
-					</a>
+				<div class="flex flex-col gap-2 justify-center items-center">
+					{% if app.user %}
+						<a href="{{ path('app_wishlist_page') }}" class="text-white font-sora text-base">Wishlist</a>
+						<a href="{{ path('app_settings') }}" class="inline-block">
+							<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewbox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6 text-violet-50">
+								<path stroke-linecap="round" stroke-linejoin="round" d="M10.343 3.94c.09-.542.56-.94 1.11-.94h1.093c.55 0 1.02.398 1.11.94l.149.894c.07.424.384.764.78.93.398.164.855.142 1.205-.108l.737-.527a1.125 1.125 0 0 1 1.45.12l.773.774c.39.389.44 1.002.12 1.45l-.527.737c-.25.35-.272.806-.107 1.204.165.397.505.71.93.78l.893.15c.543.09.94.559.94 1.109v1.094c0 .55-.397 1.02-.94 1.11l-.894.149c-.424.07-.764.383-.929.78-.165.398-.143.854.107 1.204l.527.738c.32.447.269 1.06-.12 1.45l-.774.773a1.125 1.125 0 0 1-1.449.12l-.738-.527c-.35-.25-.806-.272-1.203-.107-.398.165-.71.505-.781.929l-.149.894c-.09.542-.56.94-1.11.94h-1.094c-.55 0-1.019-.398-1.11-.94l-.148-.894c-.071-.424-.384-.764-.781-.93-.398-.164-.854-.142-1.204.108l-.738.527c-.447.32-1.06.269-1.45-.12l-.773-.774a1.125 1.125 0 0 1-.12-1.45l.527-.737c.25-.35.272-.806.108-1.204-.165-.397-.506-.71-.93-.78l-.894-.15c-.542-.09-.94-.56-.94-1.109v-1.094c0-.55.398-1.02.94-1.11l.894-.149c.424-.07.765-.383.93-.78.165-.398.143-.854-.108-1.204l-.526-.738a1.125 1.125 0 0 1 .12-1.45l.773-.773a1.125 1.125 0 0 1 1.45-.12l.737.527c.35.25.807.272 1.204.107.397-.165.71-.505.78-.929l.15-.894Z"/>
+								<path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/>
+							</svg>
+						</a>
+					{% else %}
+						<div class="flex flex-col gap-1 justify-center items-center">
+							<a href="{{ path('app_register') }}" class="text-white font-sora text-base">Register</a>
+							<a href="{{ path('app_login') }}" class="text-white font-sora text-base">Login</a>
+						</div>
+					{% endif %}
 				</div>
 			</div>
 		</nav>
